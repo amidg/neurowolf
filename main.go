@@ -18,7 +18,7 @@ type Wolf struct {
 	wisdom string //replace with type wisdom.go later
 }
 
-func defaultWolf(newWolfName string, newWolfWisdom string) *Wolf {
+func newWolf(newWolfName string, newWolfWisdom string) *Wolf {
 
 	if newWolfWisdom == "default" {
 		var defaultWisdom = "Wolf is stronger than lion but does not perform in circus"
@@ -35,7 +35,8 @@ func defaultWolf(newWolfName string, newWolfWisdom string) *Wolf {
 
 func main() {
 	//SPECIFY WOLF NAME HERE AND DESIRED WISDOM
-	wolf := defaultWolf("Default Wolf", "default") //if you want to use default wisdom type "default"
+	var userWisdom = "Nevazhno kto silnee, vazhno kto nasral" //if you want to use default wisdom type "default"
+	wolf := newWolf("Default Wolf", userWisdom)
 	fmt.Println("Welcome to Wolf Wisdom Generator V0.0.1")
 	fmt.Println("We created the default wolf with user-specified wisdom")
 	fmt.Println("IF NO WISDOM PROVIDED WOLF SAYS DEFAULT WISDOM")

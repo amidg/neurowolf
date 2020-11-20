@@ -14,6 +14,7 @@ import (
 	"io/ioutil"
 	"math/rand"
 	"os"
+	"time"
 
 	"github.com/fogleman/gg" //needed to draw text on image
 )
@@ -23,11 +24,14 @@ import (
 var (
 	pathToWolfImagesFolder  = "./Source/"
 	numberOfAvailableImages = 0
-	wolfTemplateNames       [100]string
+	wolfTemplateNames       [999]string //NO IDEA HOW MUCH RAM THIS TAKES, PROBABLY COUPLE MBs
 )
 
 /////////////////////////////////////////////
 //WILL BE REMOVED LATER INTO A SEPARATE FILE
+//WISDOM STRUCT
+
+//WOLF STRUCT
 type Wolf struct {
 	name   string
 	wisdom string //replace with type wisdom.go later
@@ -49,9 +53,10 @@ func newWolf(newWolfName string, newWolfWisdom string) *Wolf {
 /////////////////////////////////////////////////////////////
 //FUNCTIONS:
 func readAndDecodeImage() (image.Image, int, int) { //returns regenerated jpegs and its sizes
+	rand.Seed(time.Now().UnixNano())
 	var imageChosen = rand.Intn(numberOfAvailableImages) //choose random image between 0 and max image
 	var imagePath = "Source/" + wolfTemplateNames[imageChosen]
-	fmt.Println(imagePath)
+	//fmt.Println(imagePath)
 
 	// Read image from file that already exists
 	wolfImage, wolfImageErr := os.Open(imagePath) //example of image path "Source/wolf1.jpeg"

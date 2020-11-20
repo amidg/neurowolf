@@ -2,23 +2,29 @@ package main //THIS IS TEST MAIN
 
 import (
 	"fmt"
+	"log"
+
 	//wolfTest "Wolf/Wolf"
 
 	//required to read image from file
 
-	"image/jpeg"
-	"os"
-	_ "image/png"
 	"image"
+	"image/jpeg"
+	_ "image/png"
+	"io/ioutil"
+	"math/rand"
+	"os"
 
 	"github.com/fogleman/gg" //needed to draw text on image
 )
+
 /////////////////////////////////////////////
 //GLOBAL VARIABLES
 var (
-	pathToWolfImage = "Source/wolf1.jpeg"
+	pathToWolfImagesFolder  = "./Source/"
+	numberOfAvailableImages = 0
+	wolfTemplateNames       [100]string
 )
-
 
 /////////////////////////////////////////////
 //WILL BE REMOVED LATER INTO A SEPARATE FILE
@@ -42,9 +48,13 @@ func newWolf(newWolfName string, newWolfWisdom string) *Wolf {
 
 /////////////////////////////////////////////////////////////
 //FUNCTIONS:
-func readAndDecodeImage(importedImagePath string) (image.Image, int, int) { //returns regenerated jpegs and its sizes
+func readAndDecodeImage() (image.Image, int, int) { //returns regenerated jpegs and its sizes
+	var imageChosen = rand.Intn(numberOfAvailableImages) //choose random image between 0 and max image
+	var imagePath = "Source/" + wolfTemplateNames[imageChosen]
+	fmt.Println(imagePath)
+
 	// Read image from file that already exists
-	wolfImage, wolfImageErr := os.Open(importedImagePath) //example of image path "Source/wolf1.jpeg"
+	wolfImage, wolfImageErr := os.Open(imagePath) //example of image path "Source/wolf1.jpeg"
 	if wolfImageErr != nil {
 		// Handle error
 	}
@@ -102,6 +112,23 @@ func generateWolfMeme(wolf *Wolf, imgWidth int, imgHeight int, loadedDecodedJPEG
 	fmt.Printf("Saved to %s\n", imagePath)
 }
 
+func checkSourceWolfImages(pathToImages string) { //purely void function
+	files, err := ioutil.ReadDir(pathToWolfImagesFolder)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	for iter, f := range files {
+		//fmt.Println(f.Name()) //debug only
+		wolfTemplateNames[iter] = f.Name()
+		numberOfAvailableImages = numberOfAvailableImages + 1
+		iter = iter + 1
+	}
+
+	fmt.Println(wolfTemplateNames)
+}
+
 ////////////////////////////////////////////////////////////
 //MAIN
 
@@ -115,7 +142,12 @@ func main() {
 	fmt.Println(newWiseWolf.name)
 	fmt.Println(newWiseWolf.wisdom)
 
-	loadedWolfImage, wolfImgWidth, wolfImgHeight := readAndDecodeImage(pathToWolfImage)
+	//choose a template
+	checkSourceWolfImages(pathToWolfImagesFolder)
 
-	generateWolfMeme(newWiseWolf, wolfImgWidth, wolfImgHeight, loadedWolfImage)	
+	//generate image compatible with Golang
+	loadedWolfImage, wolfImgWidth, wolfImgHeight := readAndDecodeImage() //takes global variable within the function
+
+	//generate meme
+	generateWolfMeme(newWiseWolf, wolfImgWidth, wolfImgHeight, loadedWolfImage)
 }

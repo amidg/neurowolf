@@ -42,7 +42,7 @@ func newWolf(newWolfName string, newWolfWisdom string) *Wolf {
 
 /////////////////////////////////////////////////////////////
 //FUNCTIONS:
-func readAndDecodeImage(importedImagePath string) (image.Image, int, int) { //void function
+func readAndDecodeImage(importedImagePath string) (image.Image, int, int) { //returns regenerated jpegs and its sizes
 	// Read image from file that already exists
 	wolfImage, wolfImageErr := os.Open(importedImagePath) //example of image path "Source/wolf1.jpeg"
 	if wolfImageErr != nil {
@@ -67,7 +67,7 @@ func readAndDecodeImage(importedImagePath string) (image.Image, int, int) { //vo
 	return loadedWolfImage, wolfImgWidth, wolfImgHeight
 }
 
-func generateWolfMeme(wolf *Wolf, imgWidth int, imgHeight int, loadedDecodedJPEG image.Image) { //void function 
+func generateWolfMeme(wolf *Wolf, imgWidth int, imgHeight int, loadedDecodedJPEG image.Image) { //void function with OS output
 	//apply text
 	const fontSize = 48
 	imagePath := "./wolfMeme.jpeg"
@@ -94,6 +94,8 @@ func generateWolfMeme(wolf *Wolf, imgWidth int, imgHeight int, loadedDecodedJPEG
 	// Apply white fill
 	m.SetHexColor("#FFF")
 	m.DrawStringAnchored(wolf.wisdom, float64(imgWidth)/2, float64(imgHeight)-fontSize, 0.5, 0.5)
+	//func (dc *Context) DrawStringAnchored(s string, x, y, ax, ay float64)
+	//DrawStringAnchored draws the specified text at the specified anchor point. The anchor point is x - w * ax, y - h * ay, where w, h is the size of the text. Use ax=0.5, ay=0.5 to center the text at the specified point.
 
 	//save image
 	m.SavePNG(imagePath)
@@ -105,7 +107,7 @@ func generateWolfMeme(wolf *Wolf, imgWidth int, imgHeight int, loadedDecodedJPEG
 
 func main() {
 	//SPECIFY WOLF NAME HERE AND DESIRED WISDOM
-	var userWisdom = "Nevazhno kto silnee, vazhno kto nasral" //if you want to use default wisdom type "default"
+	var userWisdom = "default" //if you want to use default wisdom type "default"
 	newWiseWolf := newWolf("Default Wolf", userWisdom)
 	fmt.Println("Welcome to Wolf Wisdom Generator V0.0.1")
 	fmt.Println("We created the default wolf with user-specified wisdom")

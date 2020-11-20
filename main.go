@@ -13,19 +13,11 @@ import (
 
 	"github.com/fogleman/gg" //needed to draw text on image
 )
-
 /////////////////////////////////////////////
-//DECLARE VARIABLES:
-
-//image related stuff
-wolfImage := image.NewRGBA(image.Rectangle{image.Point{0, 0}, image.Point{100,100}})
-var wolfImageErr = 0 //error variable 
-var loadedWolfImage = NewUniform(color.black)
-var loadedWolfImageErr = 0 //error variable
-var pathToWolfImage = "Source/wolfDefault.jpeg" //default wolf
-
-var wolfImgWidth = 0
-var wolfImgHeight = 0
+//GLOBAL VARIABLES
+var (
+	pathToWolfImage = "Source/wolf1.jpeg"
+)
 
 
 /////////////////////////////////////////////
@@ -50,7 +42,7 @@ func newWolf(newWolfName string, newWolfWisdom string) *Wolf {
 
 /////////////////////////////////////////////////////////////
 //FUNCTIONS:
-func readAndDecodeImage(importedImagePath string) { //void function
+func readAndDecodeImage(importedImagePath string) (image.Image, int, int) { //void function
 	// Read image from file that already exists
 	wolfImage, wolfImageErr := os.Open(importedImagePath) //example of image path "Source/wolf1.jpeg"
 	if wolfImageErr != nil {
@@ -71,15 +63,17 @@ func readAndDecodeImage(importedImagePath string) { //void function
 	fmt.Print(wolfImgWidth)
 	fmt.Print(" by ")
 	fmt.Println(wolfImgHeight)
+
+	return loadedWolfImage, wolfImgWidth, wolfImgHeight
 }
 
-func generateWolfMeme(wolf *Wolf) { //void function 
+func generateWolfMeme(wolf *Wolf, imgWidth int, imgHeight int, loadedDecodedJPEG image.Image) { //void function 
 	//apply text
 	const fontSize = 48
 	imagePath := "./wolfMeme.jpeg"
 
-	m := gg.NewContext(wolfImgWidth, wolfImgHeight)
-	m.DrawImage(loadedWolfImage, 0, 0)
+	m := gg.NewContext(imgWidth, imgHeight)
+	m.DrawImage(loadedDecodedJPEG, 0, 0)
 	m.LoadFontFace("/Library/Fonts/Impact.ttf", fontSize)
 
 	// Apply black stroke
@@ -91,15 +85,15 @@ func generateWolfMeme(wolf *Wolf) { //void function
 			if dx*dx+dy*dy >= strokeSize*strokeSize {
 				continue
 			}
-			x := float64(wolfImgWidth/2 + dx)
-			y := float64(wolfImgHeight - fontSize + dy)
+			x := float64(imgWidth/2 + dx)
+			y := float64(imgHeight - fontSize + dy)
 			m.DrawStringAnchored(wolf.wisdom, x, y, 0.5, 0.5)
 		}
 	}
 
 	// Apply white fill
 	m.SetHexColor("#FFF")
-	m.DrawStringAnchored(wolf.wisdom, float64(wolfImgWidth)/2, float64(wolfImgHeight)-fontSize, 0.5, 0.5)
+	m.DrawStringAnchored(wolf.wisdom, float64(imgWidth)/2, float64(imgHeight)-fontSize, 0.5, 0.5)
 
 	//save image
 	m.SavePNG(imagePath)
@@ -119,7 +113,7 @@ func main() {
 	fmt.Println(newWiseWolf.name)
 	fmt.Println(newWiseWolf.wisdom)
 
-	readAndDecodeImage(pathToWolfImage)
+	loadedWolfImage, wolfImgWidth, wolfImgHeight := readAndDecodeImage(pathToWolfImage)
 
-	generateWolfMeme(newWiseWolf)	
+	generateWolfMeme(newWiseWolf, wolfImgWidth, wolfImgHeight, loadedWolfImage)	
 }

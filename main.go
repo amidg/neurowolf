@@ -139,7 +139,7 @@ func checkSourceWolfImages(pathToImages string) { //purely void function
 }
 
 func getManuallySpecifiedWisdom() string { //purely void function
-	var receivedWisdom = "test"
+	var receivedWisdom = "there is error in function, please, debug"
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Println("Ready to read user specified wisdom, enter 'default' for default wisdom")
 

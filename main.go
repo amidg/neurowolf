@@ -151,7 +151,7 @@ func getManuallySpecifiedWisdom() string { //purely void function
 		fmt.Print("You entered: ")
 		fmt.Println(receivedWisdom)
 
-		if strings.Compare("hi", receivedWisdom) != 0 {
+		if strings.Compare("", receivedWisdom) != 0 { //if string is empty -> uses default string
 			break
 		}
 	}

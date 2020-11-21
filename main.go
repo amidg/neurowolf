@@ -16,6 +16,9 @@ import (
 	"os"
 	"time"
 
+	"bufio"
+	"strings"
+
 	"github.com/fogleman/gg" //needed to draw text on image
 )
 
@@ -24,7 +27,8 @@ import (
 var (
 	pathToWolfImagesFolder  = "./Source/"
 	numberOfAvailableImages = 0
-	wolfTemplateNames       [999]string //NO IDEA HOW MUCH RAM THIS TAKES, PROBABLY COUPLE MBs
+	wolfTemplateNames       [999]string //NO IDEA HOW MUCH RAM THIS TAKES, PROBABLY COUPLE MBs, specified maximum  number of images as long as there is enough RAM
+	userWisdom              = "Wolf is stronger than lion but buys beer"
 )
 
 /////////////////////////////////////////////
@@ -84,7 +88,7 @@ func readAndDecodeImage() (image.Image, int, int) { //returns regenerated jpegs 
 
 func generateWolfMeme(wolf *Wolf, imgWidth int, imgHeight int, loadedDecodedJPEG image.Image) { //void function with OS output
 	//apply text
-	const fontSize = 48
+	const fontSize = 108
 	imagePath := "./wolfMeme.jpeg"
 
 	m := gg.NewContext(imgWidth, imgHeight)
@@ -134,12 +138,37 @@ func checkSourceWolfImages(pathToImages string) { //purely void function
 	fmt.Println(wolfTemplateNames)
 }
 
+func getManuallySpecifiedWisdom() string { //purely void function
+	var receivedWisdom = "test"
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Println("Ready to read user specified wisdom, enter 'default' for default wisdom")
+
+	for {
+		fmt.Print("-> ")
+		receivedWisdom, _ := reader.ReadString('\n')
+		// convert CRLF to LF
+		receivedWisdom = strings.Replace(receivedWisdom, "\r\n", "", -1) //specify \r\n if using windows and \n if using linux
+		fmt.Print("You entered: ")
+		fmt.Println(receivedWisdom)
+
+		if strings.Compare("hi", receivedWisdom) != 0 {
+			break
+		}
+	}
+
+	return receivedWisdom
+}
+
 ////////////////////////////////////////////////////////////
 //MAIN
 
 func main() {
 	//SPECIFY WOLF NAME HERE AND DESIRED WISDOM
-	var userWisdom = "default" //if you want to use default wisdom type "default"
+	//userWisdom = "KOGDA V FORZU BLYAT?" //if you want to use default wisdom type "default"
+
+	userWisdom = getManuallySpecifiedWisdom() //get wisdom from the keyboard
+	//userWisdom = getAutomaticallySpecifiedWisdom() //neural network wisdom
+
 	newWiseWolf := newWolf("Default Wolf", userWisdom)
 	fmt.Println("Welcome to Wolf Wisdom Generator V0.0.1")
 	fmt.Println("We created the default wolf with user-specified wisdom")

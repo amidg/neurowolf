@@ -17,7 +17,6 @@ import (
 	"time"
 
 	"bufio"
-	"strings"
 
 	"github.com/fogleman/gg" //needed to draw text on image
 )
@@ -140,18 +139,15 @@ func checkSourceWolfImages(pathToImages string) { //purely void function
 
 func getManuallySpecifiedWisdom() string { //purely void function
 	var receivedWisdom = "there is error in function, please, debug"
-	reader := bufio.NewReader(os.Stdin)
+	//reader := bufio.NewReader(os.Stdin)
 	fmt.Println("Ready to read user specified wisdom, enter 'default' for default wisdom")
 
-	for {
-		fmt.Print("-> ")
-		receivedWisdom, _ := reader.ReadString('\n')
-		// convert CRLF to LF
-		receivedWisdom = strings.Replace(receivedWisdom, "\r\n", "", -1) //specify \r\n if using windows and \n if using linux
-		fmt.Print("You entered: ")
-		fmt.Println(receivedWisdom)
+	scanner := bufio.NewScanner(os.Stdin)
+	for scanner.Scan() {
+		fmt.Println(scanner.Text())
+		receivedWisdom = scanner.Text()
 
-		if strings.Compare("", receivedWisdom) != 0 { //if string is empty -> uses default string
+		if receivedWisdom != "there is error in function, please, debug" {
 			break
 		}
 	}
@@ -166,7 +162,7 @@ func main() {
 	//SPECIFY WOLF NAME HERE AND DESIRED WISDOM
 	//userWisdom = "KOGDA V FORZU BLYAT?" //if you want to use default wisdom type "default"
 
-	userWisdom = getManuallySpecifiedWisdom() //get wisdom from the keyboard
+	userWisdom := getManuallySpecifiedWisdom() //get wisdom from the keyboard
 	//userWisdom = getAutomaticallySpecifiedWisdom() //neural network wisdom
 
 	newWiseWolf := newWolf("Default Wolf", userWisdom)

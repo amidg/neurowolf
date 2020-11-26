@@ -143,6 +143,8 @@ func getManuallySpecifiedWisdom() string { //purely void function
 	fmt.Println("Ready to read user specified wisdom, enter 'default' for default wisdom")
 
 	scanner := bufio.NewScanner(os.Stdin)
+	fmt.Println("Enter custom wisdom for your wolf")
+	fmt.Print("->")
 	for scanner.Scan() {
 		fmt.Println(scanner.Text())
 		receivedWisdom = scanner.Text()

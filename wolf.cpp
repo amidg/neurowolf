@@ -1,18 +1,12 @@
 #include<iostream>
 #include "wolf.h"
 #include <cstdlib>
-#define cimg_display 0
-#include "CImg.h"
+
 using namespace std;
-using namespace cimg_library;
 
 //constructors
 Wolf::Wolf() {
 	wolfwisdom = "Волк слабее льва, но в цирке не выступает";
-}
-
-Wolf::Wolf(string wisdom) {
-	wolfwisdom = wisdom;
 }
 
 string Wolf::getWisdom() {

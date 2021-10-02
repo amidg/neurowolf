@@ -28,6 +28,9 @@ public:
     //functions to build wisdom
     
 
+    //useful variable
+    ifstream fileHandler;
+
 
 private:
 	string wolfwisdom;

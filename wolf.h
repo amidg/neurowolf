@@ -1,5 +1,11 @@
 #include <iostream>
 #include <string>
+#include <stdio.h>
+#include <unistd.h>
+#include <string>
+#include <locale> //needed to read russian language
+#include <fstream> //needed to read text from file
+
 using namespace std;
 
 #ifndef WOLF_H
@@ -7,17 +13,21 @@ using namespace std;
 
 class Wolf {
 public:
-	Wolf();
-	Wolf(string wisdom);
-    string readWisdomFromKeyboard();
-    string readPhrase1(string filepath);
-    string readPhrase2(string filepath);
-    string readNoun(string filepath);
-    string readVerb(string filepath);
-    string generateWisdom(string phrase1, string noun1, string noun2, string noun3, string phrase2, string verb1, string verb2);
-	void generateWisdomMeme(string wisdom);
+	Wolf(); //default constructor
 
+    //getter and setter for default wolf
     string getWisdom();
+    void setWisdom(string wisdom);
+
+    //functions to get wisdom useful information
+    string getPhrase(string phrasePath);
+    string getNoun(string nounPath);
+    string getAdj(string adjPath);
+    string getVerb(string verbPath);
+
+    //functions to build wisdom
+    
+
 
 private:
 	string wolfwisdom;

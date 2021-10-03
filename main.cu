@@ -17,11 +17,11 @@ using namespace std;
 */
 
 //sources for images, text files etc
-string whereToFindSourceImages = "/ImgSource/";
-string phrase1source = "Phrase1.txt";
-string phrase2source = "Phrase2.txt";
-string nounSource = "Noun.txt";
-string verbSource = "Verb.txt";
+string whereToFindSourceImages = "./ImgSource/";
+string phrase1source = "./Source/Phrase1.txt";
+string phrase2source = "./Source/Phrase2.txt";
+string nounSource = "./Source/Noun.txt";
+string verbSource = "./Source/Verb.txt";
 
 //function declarations
 __global__ void cuda_hello();

@@ -56,7 +56,7 @@ string Wolf::getPhrase(string phrasePath) {
     // File Close
     fileHandler.close();
 
-	cout << phrase << endl; // print the line on the standard output
+	//cout << phrase << endl; // print the line on the standard output
 
 	return phrase;
 }

@@ -24,6 +24,7 @@ void Wolf::setWisdom(string wisdom) {
 //functions to get wisdom useful information
 string Wolf::getPhrase(string phrasePath) {
 	string phrase = "";
+	int numberOfLines = 0;
 
 	fileHandler.open(phrasePath);
 
@@ -32,17 +33,29 @@ string Wolf::getPhrase(string phrasePath) {
         cout << "Unable to open file";
         exit(1); // terminate with error
     } else if (fileHandler.is_open()) {
-        // Keep reading the file
+        // Keep reading the file to calculate how many lines we have
         while(getline(fileHandler, phrase))
         {
-            // print the line on the standard output
-            cout << phrase << endl;
+            numberOfLines++;
+            //cout << phrase << endl; // print the line on the standard output
+			//cout << numberOfLines << endl;
         }
+		fileHandler.close();
 	}
 
+	fileHandler.open(phrasePath);
+
+	//get one of the random lines
+	int randLine = rand() % numberOfLines; //from 1 to numberOfLines
+	for (int i = 1; i < randLine; i++) {
+		getline(fileHandler, phrase);
+		// cout << phrase << endl; // print the line on the standard output
+	}
 
     // File Close
     fileHandler.close();
+
+	cout << phrase << endl; // print the line on the standard output
 
 	return phrase;
 }

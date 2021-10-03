@@ -36,7 +36,8 @@ Wolf newWolf = Wolf();
 
 int main() {
 	//initializing code
-    setlocale(LC_CTYPE,"Russian");
+    setlocale(LC_CTYPE,"Russian"); //russian language
+	srand (time(NULL)); //initialize random seed
 
     //debug or temp code
     cuda_hello<<<1,1>>>();
@@ -52,6 +53,5 @@ int main() {
 //functions descriptions
 __global__ void cuda_hello() {
     printf("Wolf Wisdom Generator v10.2021.0\n");
-    printf("Powered by NVIDIA CUDA 10.0\n");
-    printf("NVIDIA QUADRO K5000\n");
+    printf("Powered by NVIDIA CUDA 10.0 using NVIDIA QUADRO K5000\n");
 }

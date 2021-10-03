@@ -43,13 +43,13 @@ int main() {
 
     //debug or temp code
     CUDAdeviceInfo();
-    cout << newWolf.getStringContentFromFile(verbSource) << endl;
-
+	int i = 1;
 
     //loop code
-	// while(1) {
-
-	// }
+	while(i < 10) {
+		i++;
+		cout << newWolf.getStringContentFromFile(phrase1source) + " " + newWolf.getStringContentFromFile(phrase2source) << endl;
+	}
 	
 	return 0;
 }

@@ -26,7 +26,7 @@ string verbSource = "./Source/Verb.txt";
 
 //CUDA related code
 cudaDeviceProp deviceProp;
-void cuda_hello();
+void CUDAdeviceInfo();
 
 //wolf
 Wolf newWolf = Wolf();
@@ -42,8 +42,8 @@ int main() {
 	srand (time(NULL)); //initialize random seed
 
     //debug or temp code
-    cuda_hello();
-    std::cout << newWolf.getPhrase("Phrase1.txt");
+    CUDAdeviceInfo();
+    cout << newWolf.getPhrase(phrase1source) << endl;
 
 
     //loop code
@@ -53,7 +53,7 @@ int main() {
 }
 
 //functions descriptions
-void cuda_hello() {
+void CUDAdeviceInfo() {
     printf("Wolf Wisdom Generator v10.2021.0\n");
     printf("Powered by NVIDIA CUDA 10.0 using:\n");
 

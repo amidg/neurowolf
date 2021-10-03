@@ -22,12 +22,13 @@ void Wolf::setWisdom(string wisdom) {
 }
 
 //functions to get wisdom useful information
-string Wolf::getPhrase(string phrasePath) {
+string Wolf::getStringContentFromFile(string path) {
+	//this function takes random string from the txt file with predefined words
 	string phrase = "";
 	int numberOfLines = 0;
 	int i = 1;
 
-	fileHandler.open(phrasePath);
+	fileHandler.open(path);
 
 	//check file open status
 	if (!fileHandler) {
@@ -44,39 +45,59 @@ string Wolf::getPhrase(string phrasePath) {
 		fileHandler.close();
 	}
 
-	fileHandler.open(phrasePath);
+	fileHandler.open(path);
 
 	//get one of the random lines
 	int randLine = rand() % numberOfLines; //from 1 to numberOfLines
 	while (fileHandler.is_open() && i < randLine) {
 		getline(fileHandler, phrase);
 		i++;
+
+		if (phrase == "") {
+			i--; //if phrase is empty we redo the cycle
+		}
 	}
 
     // File Close
     fileHandler.close();
 
-	cout << phrase << endl; // print the line on the standard output
+	//cout << phrase << endl; // print the line on the standard output
 
 	return phrase;
 }
 
-string Wolf::getNoun(string nounPath) {
-	string noun = "";
+void Wolf::buildSimpleWisdomStructure(string phrase1, string phrase2) {
+	string wisdomStructure = "";
 
-
-	return noun;
+	wisdomStructure = phrase1 + " " + phrase2;
+	wolfwisdom = wisdomStructure;
 }
 
-string Wolf::getAdj(string adjPath) {
-	string adj = "";
+void Wolf::insertWordIntoWisdom(string nounPath, string verbPath) {
+	/* insert word into the existing wisdom based on markers
+		n -> noun 
+		v -> verb
+		a -> adjective
+		av -> adverb
+	*/
 
+	std::size_t position = 0;
 
-	return adj;
-}
+	//search for noun
+	while (wolfwisdom.find('n') < 500) {
+		position = wolfwisdom.find('n');
+		
+		wolfwisdom.erase(wolfwisdom.begin() + position);
 
-string Wolf::getVerb(string verbPath) {
-	string verb = "";
+		wolfwisdom.insert(position, getStringContentFromFile(nounPath));
+	}
 
-	return verb;
+	//search for verb
+	while (wolfwisdom.find('v') < 500) {
+		position = wolfwisdom.find('v');
+		
+		wolfwisdom.erase(wolfwisdom.begin() + position);
+
+		wolfwisdom.insert(position, getStringContentFromFile(verbPath));
+	}
 }

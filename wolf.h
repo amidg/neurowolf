@@ -20,17 +20,14 @@ public:
     void setWisdom(string wisdom);
 
     //functions to get wisdom useful information
-    string getPhrase(string phrasePath);
-    string getNoun(string nounPath);
-    string getAdj(string adjPath);
-    string getVerb(string verbPath);
+    string getStringContentFromFile(string path);
 
     //functions to build wisdom
-    
+    void buildSimpleWisdomStructure(string phrase1, string phrase2);
+    void insertWordIntoWisdom(string nounPath, string verbPath);
 
     //useful variable
-    ifstream fileHandler;
-
+    ifstream fileHandler; //txt file handler for C++
 
 private:
 	string wolfwisdom;

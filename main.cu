@@ -5,6 +5,7 @@
 #include "wolf.h"
 #include "wolf.cpp"
 #include <locale>
+#include <cuda.h>
 
 using namespace std;
 
@@ -23,8 +24,9 @@ string phrase2source = "./Source/Phrase2.txt";
 string nounSource = "./Source/Noun.txt";
 string verbSource = "./Source/Verb.txt";
 
-//function declarations
-__global__ void cuda_hello();
+//CUDA related code
+cudaDeviceProp deviceProp;
+void CUDAdeviceInfo();
 
 //wolf
 Wolf newWolf = Wolf();
@@ -37,21 +39,48 @@ Wolf newWolf = Wolf();
 int main() {
 	//initializing code
     setlocale(LC_CTYPE,"Russian"); //russian language
-	srand (time(NULL)); //initialize random seed
+	srand(time(NULL)); //initialize random seed
 
     //debug or temp code
-    cuda_hello<<<1,1>>>();
-    std::cout << newWolf.getPhrase("Phrase1.txt");
-
+    CUDAdeviceInfo();
+	int i = 1;
 
     //loop code
-	
+	while(i < 10) {
+		i++;
+		newWolf.buildSimpleWisdomStructure(newWolf.getStringContentFromFile(phrase1source), 
+										   newWolf.getStringContentFromFile(phrase2source) );
+
+		newWolf.insertWordIntoWisdom(nounSource, verbSource);
+
+		cout << newWolf.getWisdom() << endl;
+	}
 	
 	return 0;
 }
 
 //functions descriptions
-__global__ void cuda_hello() {
+void CUDAdeviceInfo() {
     printf("Wolf Wisdom Generator v10.2021.0\n");
-    printf("Powered by NVIDIA CUDA 10.0 using NVIDIA QUADRO K5000\n");
+    printf("Powered by NVIDIA CUDA 10.0 using:\n");
+
+	cudaGetDeviceProperties(&deviceProp, 0);
+
+	printf("Device name:                %s\n", deviceProp.name); 
+	printf("Major revision number:      %d\n", deviceProp.major);
+    printf("Minor revision Number:      %d\n", deviceProp.minor); 
+    printf("Total Global Memory:        %d\n", deviceProp.totalGlobalMem);
+    printf("Total shared mem per block: %d\n", deviceProp.sharedMemPerBlock); 
+    printf("Total const mem size:       %d\n", deviceProp.totalConstMem); 
+    printf("Warp size:                  %d\n", deviceProp.warpSize); 
+    printf("Maximum block dimensions:   %d x %d x %d\n", deviceProp.maxThreadsDim[0], \ 
+														 deviceProp.maxThreadsDim[1], \
+                                                         deviceProp.maxThreadsDim[2]); 
+
+    printf("Maximum grid dimensions:    %d x %d x %d\n", deviceProp.maxGridSize[0], \
+                                                         deviceProp.maxGridSize[1], \
+                                                         deviceProp.maxGridSize[2]); 
+
+    printf("Clock Rate:                 %d\n", deviceProp.clockRate); 
+    printf("Number of muliprocessors:   %d\n", deviceProp.multiProcessorCount); 
 }

@@ -39,11 +39,11 @@ Wolf newWolf = Wolf();
 int main() {
 	//initializing code
     setlocale(LC_CTYPE,"Russian"); //russian language
-	srand (time(NULL)); //initialize random seed
+	srand(time(NULL)); //initialize random seed
 
     //debug or temp code
     CUDAdeviceInfo();
-    cout << newWolf.getPhrase(phrase1source) << endl;
+    cout << newWolf.getStringContentFromFile(verbSource) << endl;
 
 
     //loop code

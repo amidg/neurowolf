@@ -22,12 +22,13 @@ void Wolf::setWisdom(string wisdom) {
 }
 
 //functions to get wisdom useful information
-string Wolf::getPhrase(string phrasePath) {
+string Wolf::getStringContentFromFile(string path) {
+	//this function takes random string from the txt file with predefined words
 	string phrase = "";
 	int numberOfLines = 0;
 	int i = 1;
 
-	fileHandler.open(phrasePath);
+	fileHandler.open(path);
 
 	//check file open status
 	if (!fileHandler) {
@@ -44,7 +45,7 @@ string Wolf::getPhrase(string phrasePath) {
 		fileHandler.close();
 	}
 
-	fileHandler.open(phrasePath);
+	fileHandler.open(path);
 
 	//get one of the random lines
 	int randLine = rand() % numberOfLines; //from 1 to numberOfLines
@@ -65,22 +66,6 @@ string Wolf::getPhrase(string phrasePath) {
 	return phrase;
 }
 
-string Wolf::getNoun(string nounPath) {
-	string noun = "";
+string Wolf::buildSimpleWisdomStructure(string phrase1, string phrase2) {
 
-
-	return noun;
-}
-
-string Wolf::getAdj(string adjPath) {
-	string adj = "";
-
-
-	return adj;
-}
-
-string Wolf::getVerb(string verbPath) {
-	string verb = "";
-
-	return verb;
 }

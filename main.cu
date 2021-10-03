@@ -51,6 +51,8 @@ int main() {
 		newWolf.buildSimpleWisdomStructure(newWolf.getStringContentFromFile(phrase1source), 
 										   newWolf.getStringContentFromFile(phrase2source) );
 
+		newWolf.insertWordIntoWisdom(nounSource, verbSource);
+
 		cout << newWolf.getWisdom() << endl;
 	}
 	

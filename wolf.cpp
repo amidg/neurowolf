@@ -66,11 +66,38 @@ string Wolf::getStringContentFromFile(string path) {
 	return phrase;
 }
 
-string Wolf::buildSimpleWisdomStructure(string phrase1, string phrase2) {
+void Wolf::buildSimpleWisdomStructure(string phrase1, string phrase2) {
 	string wisdomStructure = "";
 
 	wisdomStructure = phrase1 + " " + phrase2;
 	wolfwisdom = wisdomStructure;
+}
 
-	return wisdomStructure;
+void Wolf::insertWordIntoWisdom(string nounPath, string verbPath) {
+	/* insert word into the existing wisdom based on markers
+		n -> noun 
+		v -> verb
+		a -> adjective
+		av -> adverb
+	*/
+
+	std::size_t position = 0;
+
+	//search for noun
+	while (wolfwisdom.find('n') < 500) {
+		position = wolfwisdom.find('n');
+		
+		wolfwisdom.erase(wolfwisdom.begin() + position);
+
+		wolfwisdom.insert(position, getStringContentFromFile(nounPath));
+	}
+
+	//search for verb
+	while (wolfwisdom.find('v') < 500) {
+		position = wolfwisdom.find('v');
+		
+		wolfwisdom.erase(wolfwisdom.begin() + position);
+
+		wolfwisdom.insert(position, getStringContentFromFile(verbPath));
+	}
 }

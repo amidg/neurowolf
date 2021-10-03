@@ -21,10 +21,10 @@ public:
 
     //functions to get wisdom useful information
     string getStringContentFromFile(string path);
-    
 
     //functions to build wisdom
-    string buildSimpleWisdomStructure(string phrase1, string phrase2);
+    void buildSimpleWisdomStructure(string phrase1, string phrase2);
+    void insertWordIntoWisdom(string nounPath, string verbPath);
 
     //useful variable
     ifstream fileHandler; //txt file handler for C++

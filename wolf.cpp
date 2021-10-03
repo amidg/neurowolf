@@ -25,6 +25,7 @@ void Wolf::setWisdom(string wisdom) {
 string Wolf::getPhrase(string phrasePath) {
 	string phrase = "";
 	int numberOfLines = 0;
+	int i = 1;
 
 	fileHandler.open(phrasePath);
 
@@ -47,9 +48,9 @@ string Wolf::getPhrase(string phrasePath) {
 
 	//get one of the random lines
 	int randLine = rand() % numberOfLines; //from 1 to numberOfLines
-	for (int i = 1; i < randLine; i++) {
+	while (fileHandler.is_open() && i < randLine) {
 		getline(fileHandler, phrase);
-		// cout << phrase << endl; // print the line on the standard output
+		i++;
 	}
 
     // File Close

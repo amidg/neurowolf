@@ -48,7 +48,10 @@ int main() {
     //loop code
 	while(i < 10) {
 		i++;
-		cout << newWolf.getStringContentFromFile(phrase1source) + " " + newWolf.getStringContentFromFile(phrase2source) << endl;
+		newWolf.buildSimpleWisdomStructure(newWolf.getStringContentFromFile(phrase1source), 
+										   newWolf.getStringContentFromFile(phrase2source) );
+
+		cout << newWolf.getWisdom() << endl;
 	}
 	
 	return 0;

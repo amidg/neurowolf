@@ -69,6 +69,8 @@ string Wolf::getStringContentFromFile(string path) {
 string Wolf::buildSimpleWisdomStructure(string phrase1, string phrase2) {
 	string wisdomStructure = "";
 
+	wisdomStructure = phrase1 + " " + phrase2;
+	wolfwisdom = wisdomStructure;
 
 	return wisdomStructure;
 }

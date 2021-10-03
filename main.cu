@@ -47,7 +47,9 @@ int main() {
 
 
     //loop code
-	
+	// while(1) {
+
+	// }
 	
 	return 0;
 }

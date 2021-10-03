@@ -51,6 +51,10 @@ string Wolf::getPhrase(string phrasePath) {
 	while (fileHandler.is_open() && i < randLine) {
 		getline(fileHandler, phrase);
 		i++;
+
+		if (phrase == "") {
+			i--; //if phrase is empty we redo the cycle
+		}
 	}
 
     // File Close

@@ -1,4 +1,4 @@
-#include "wolf.h"
+#include "wolf.hpp"
 #include <iostream>
 #include <string>
 #include <stdio.h>

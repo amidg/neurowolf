@@ -9,6 +9,8 @@ using namespace std;
 
 //constructors
 Wolf::Wolf() {
+	setlocale(LC_CTYPE,"Russian"); //russian language
+	srand(time(NULL)); //initialize random seed
 	wolfwisdom = "Волк слабее льва, но в цирке не выступает\n";
 }
 

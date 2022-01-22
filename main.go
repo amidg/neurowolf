@@ -22,6 +22,8 @@ import (
 	"github.com/fogleman/gg" //needed to draw text on image
 	"github.com/golang/freetype/truetype"
 	"golang.org/x/image/font/gofont/goregular"
+
+	"C" // needed to run C++ wrapper
 )
 
 /////////////////////////////////////////////
@@ -205,11 +207,24 @@ func getNumberOfLinesInText(fileName string) int {
 }
 
 func getMachineGeneratedWisdom() int { //string output of the machine specified wisdom
-	numberOfNouns := getNumberOfLinesInText("./Source/Noun.txt")
+	var receivedWisdom = "there is error in function, please, debug"
+	//reader := bufio.NewReader(os.Stdin)
+	fmt.Println("Ready to read user specified wisdom, enter 'default' for default wisdom")
 
-	//var receivedWisdom = "there is error in function, please, debug"
+	scanner := bufio.NewScanner(os.Stdin)
+	fmt.Println("Enter custom wisdom for your wolf")
+	fmt.Print("->")
+	for scanner.Scan() {
+		fmt.Println(scanner.Text())
+		receivedWisdom = scanner.Text()
+		receivedWisdom = "Не нужно менять себя ради кого-то важно кто насрал"
 
-	return numberOfNouns
+		if receivedWisdom != "there is error in function, please, debug" {
+			break
+		}
+	}
+
+	return receivedWisdom
 }
 
 ////////////////////////////////////////////////////////////
@@ -223,7 +238,7 @@ func main() {
 	fmt.Println(getMachineGeneratedWisdom)
 
 	newWiseWolf := newWolf("Default Wolf", userWisdom)
-	fmt.Println("Welcome to Wolf Wisdom Generator V0.1")
+	fmt.Println("Welcome to Neural Wolf Generator Rev 1.0")
 	fmt.Println("We created the default wolf with user-specified wisdom")
 	fmt.Println("IF NO WISDOM PROVIDED WOLF SAYS DEFAULT WISDOM")
 	fmt.Println(newWiseWolf.name)

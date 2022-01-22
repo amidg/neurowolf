@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"log"
 
-	//wolfTest "Wolf/Wolf"
-
 	//required to read image from file
 	"image"
 	"image/jpeg"
@@ -15,29 +13,27 @@ import (
 	"os"
 	"time"
 
-	"strings"
-
 	"bufio"
 
 	"github.com/fogleman/gg" //needed to draw text on image
 	"github.com/golang/freetype/truetype"
 	"golang.org/x/image/font/gofont/goregular"
 
-	"C" // needed to run C++ wrapper
+	"C"
 )
 
 /////////////////////////////////////////////
 //GLOBAL VARIABLES
 var (
 	pathToWolfImagesFolder  = "./ImgSource/"
+	phrase1source           = "./Source/Phrase1.txt"
+	phrase2source           = "./Source/Phrase2.txt"
+	nounSource              = "./Source/Noun.txt"
+	verbSource              = "./Source/Verb.txt"
 	numberOfAvailableImages = 0
-	wolfTemplateNames       [999]string //NO IDEA HOW MUCH RAM THIS TAKES, PROBABLY COUPLE MBs, specified maximum  number of images as long as there is enough RAM
+	wolfTemplateNames       [999]string
 	userWisdom              = "Wolf is stronger than lion but buys beer"
 )
-
-/////////////////////////////////////////////
-//WILL BE REMOVED LATER INTO A SEPARATE FILE
-//WISDOM STRUCT
 
 //WOLF STRUCT
 type Wolf struct {
@@ -92,7 +88,7 @@ func readAndDecodeImage() (image.Image, int, int) { //returns regenerated jpegs 
 
 func generateWolfMeme(wolf *Wolf, imgWidth int, imgHeight int, loadedDecodedJPEG image.Image) { //void function with OS output
 	//apply text
-	const fontSize = 36
+	const fontSize = 48
 	imagePath := "./wolfMeme.jpeg"
 
 	//set font face
@@ -162,7 +158,6 @@ func getManuallySpecifiedWisdom() string { //purely void function
 	for scanner.Scan() {
 		fmt.Println(scanner.Text())
 		receivedWisdom = scanner.Text()
-		receivedWisdom = "Не нужно менять себя ради кого-то важно кто насрал"
 
 		if receivedWisdom != "there is error in function, please, debug" {
 			break
@@ -172,57 +167,10 @@ func getManuallySpecifiedWisdom() string { //purely void function
 	return receivedWisdom
 }
 
-//file reading functions for machine generated wisdom
-func getNumberOfLinesInText(fileName string) int {
-	// if len(os.Args) <= 1 {
-	// 	fmt.Printf("USAGE : %s <target_filename> \n", os.Args[0])
-	// 	os.Exit(0)
-	// }
-
-	// fileName := os.Args[1]
-
-	fileBytes, err := ioutil.ReadFile(fileName)
-	var numberOfLinesInText = 0
-
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
-
-	lines := strings.Split(string(fileBytes), "\n")
-
-	// remove the last item from the lines slice
-	// which is empty
-	lines = lines[:len(lines)-1]
-
-	// len() function will count the total number of lines
-	fmt.Println(fileName, "has a total of", len(lines), "lines")
-	for i, line := range lines {
-		// i = i + 1 // uncomment to start from 1 instead of 0
-		fmt.Println(i, line)
-		numberOfLinesInText = numberOfLinesInText + 1
-	}
-
-	return numberOfLinesInText
-}
-
-func getMachineGeneratedWisdom() int { //string output of the machine specified wisdom
+func getMachineGeneratedWisdom() string { //string output of the machine specified wisdom
 	var receivedWisdom = "there is error in function, please, debug"
-	//reader := bufio.NewReader(os.Stdin)
-	fmt.Println("Ready to read user specified wisdom, enter 'default' for default wisdom")
 
-	scanner := bufio.NewScanner(os.Stdin)
-	fmt.Println("Enter custom wisdom for your wolf")
-	fmt.Print("->")
-	for scanner.Scan() {
-		fmt.Println(scanner.Text())
-		receivedWisdom = scanner.Text()
-		receivedWisdom = "Не нужно менять себя ради кого-то важно кто насрал"
-
-		if receivedWisdom != "there is error in function, please, debug" {
-			break
-		}
-	}
+	receivedWisdom = "Не нужно менять себя ради кого-то важно кто насрал"
 
 	return receivedWisdom
 }
@@ -233,11 +181,11 @@ func getMachineGeneratedWisdom() int { //string output of the machine specified 
 func main() {
 	//SPECIFY WOLF NAME HERE AND DESIRED WISDOM
 
-	userWisdom := getManuallySpecifiedWisdom() //get wisdom from the keyboard
-	//userWisdom = getAutomaticallySpecifiedWisdom() //neural network wisdom
-	fmt.Println(getMachineGeneratedWisdom)
+	//userWisdom := getManuallySpecifiedWisdom() //get wisdom from the keyboard
+	userWisdom = getMachineGeneratedWisdom() //neural network wisdom
+	//fmt.Println(getMachineGeneratedWisdom)
 
-	newWiseWolf := newWolf("Default Wolf", userWisdom)
+	newWiseWolf := newWolf("Wolf", userWisdom)
 	fmt.Println("Welcome to Neural Wolf Generator Rev 1.0")
 	fmt.Println("We created the default wolf with user-specified wisdom")
 	fmt.Println("IF NO WISDOM PROVIDED WOLF SAYS DEFAULT WISDOM")

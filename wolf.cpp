@@ -1,9 +1,11 @@
-#include<iostream>
 #include "wolf.h"
-#include <cstdlib>
+#include <iostream>
+#include <string>
+#include <stdio.h>
 #include <unistd.h>
-#include <locale> //needed to read russian language
+#include <locale>
 #include <fstream> //needed to read text from file
+#include <cstdlib>
 
 using namespace std;
 

@@ -2,9 +2,9 @@
 #include <string>
 #include <stdio.h>
 #include <unistd.h>
-#include <string>
-#include <locale> //needed to read russian language
+#include <locale>
 #include <fstream> //needed to read text from file
+#include <cstdlib>
 
 using namespace std;
 

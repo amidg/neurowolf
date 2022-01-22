@@ -1,11 +1,5 @@
-#include <iostream>
-#include <string>
-#include <stdio.h>
-#include <unistd.h>
 #include "wolf.h"
 #include "wolf.cpp"
-#include <locale>
-// #include <cuda.h>
 
 using namespace std;
 

@@ -33,9 +33,6 @@ Wolf newWolf = Wolf();
 */
 
 int main() {
-	//initializing code
-    setlocale(LC_CTYPE,"Russian"); //russian language
-	srand(time(NULL)); //initialize random seed
 
 	int i = 1;
 

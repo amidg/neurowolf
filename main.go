@@ -15,7 +15,7 @@ import (
 	"os"
 	"time"
 
-    "strings"
+	"strings"
 
 	"bufio"
 
@@ -160,6 +160,7 @@ func getManuallySpecifiedWisdom() string { //purely void function
 	for scanner.Scan() {
 		fmt.Println(scanner.Text())
 		receivedWisdom = scanner.Text()
+		receivedWisdom = "Не нужно менять себя ради кого-то важно кто насрал"
 
 		if receivedWisdom != "there is error in function, please, debug" {
 			break
@@ -207,7 +208,6 @@ func getMachineGeneratedWisdom() int { //string output of the machine specified 
 	numberOfNouns := getNumberOfLinesInText("./Source/Noun.txt")
 
 	//var receivedWisdom = "there is error in function, please, debug"
-
 
 	return numberOfNouns
 }

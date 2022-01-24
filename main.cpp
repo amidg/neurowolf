@@ -25,6 +25,8 @@ Wolf newWolf = Wolf();
 
 int wolfwisdomlen = 0;
 
+int imageNum = 0;
+
 /*
 	CUDA CODE IS EXECUTED USING THE FOLLOWING -> check NVIDIA documentation for this
 	function<<<grid,block>>>(param1,param2,...); 
@@ -44,7 +46,7 @@ int main() {
 
 	strcpy(stringToBePassed, newWolf.getWisdom().c_str());
 
-	generateCompleteWolfImage(stringToBePassed);
+	generateCompleteWolfImage(stringToBePassed, imageNum);
 	
 	return 0;
 }

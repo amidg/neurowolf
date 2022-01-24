@@ -88,7 +88,7 @@ func readAndDecodeImage() (image.Image, int, int) { //returns regenerated jpegs 
 
 func generateWolfMeme(wolf *Wolf, imgWidth int, imgHeight int, loadedDecodedJPEG image.Image) { //void function with OS output
 	//apply text
-	const fontSize = 48
+	const fontSize = 36
 	imagePath := "./wolfMeme.jpeg"
 
 	//set font face
@@ -198,9 +198,10 @@ func generateCompleteWolfImage(wisdom *C.char) {
 }
 
 func main() {
-	//generateCompleteWolfImage(wisdomFromC)
 	/*
 		use go build -buildmode=c-shared wolfimggen.go to build library
 		must indicate necessary functions with //export <function name>
+
+		g++ -pthread main.cpp wolfimggen.a -o wolfwisdomgenerator
 	*/
 }

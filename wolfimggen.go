@@ -86,10 +86,10 @@ func readAndDecodeImage() (image.Image, int, int) { //returns regenerated jpegs 
 	return loadedWolfImage, wolfImgWidth, wolfImgHeight
 }
 
-func generateWolfMeme(wolf *Wolf, imgWidth int, imgHeight int, loadedDecodedJPEG image.Image) { //void function with OS output
+func generateWolfMeme(wolf *Wolf, imgWidth int, imgHeight int, loadedDecodedJPEG image.Image, imageNumber C.int) { //void function with OS output
 	//apply text
 	const fontSize = 36
-	imagePath := "./wolfMeme.jpeg"
+	imagePath := "./GeneratedImages/wolfMeme" + string(imageNumber) + ".jpeg"
 
 	//set font face
 	font, err := truetype.Parse(goregular.TTF)
@@ -176,7 +176,7 @@ func getMachineGeneratedWisdom(wisdom string) string { //string output of the ma
 }
 
 //export generateCompleteWolfImage
-func generateCompleteWolfImage(wisdom *C.char) {
+func generateCompleteWolfImage(wisdom *C.char, imageNum C.int) {
 	//userWisdom := getManuallySpecifiedWisdom() //get wisdom from the keyboard
 	userWisdom = getMachineGeneratedWisdom(C.GoString(wisdom)) //neural network wisdom
 
@@ -194,7 +194,7 @@ func generateCompleteWolfImage(wisdom *C.char) {
 	loadedWolfImage, wolfImgWidth, wolfImgHeight := readAndDecodeImage() //takes global variable within the function
 
 	//generate meme
-	generateWolfMeme(newWiseWolf, wolfImgWidth, wolfImgHeight, loadedWolfImage)
+	generateWolfMeme(newWiseWolf, wolfImgWidth, wolfImgHeight, loadedWolfImage, imageNum)
 }
 
 func main() {

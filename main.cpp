@@ -5,14 +5,6 @@
 
 using namespace std;
 
-/*
-	GOAL:
-	- design code to generate wolf wisdom using C++ and CUDA
-	- C++ is used to generate text
-	- CUDA is used to generate image/video content, can be used for text as well (not sure if needed)
-
-*/
-
 //sources for images, text files etc
 string whereToFindSourceImages = "./ImgSource/";
 string phrase1source = "./Source/Phrase1.txt";
@@ -35,7 +27,7 @@ int imageNum = 0;
 int main() {
 
 	newWolf.buildSimpleWisdomStructure(newWolf.getStringContentFromFile(phrase1source), 
-										   newWolf.getStringContentFromFile(phrase2source) );
+									   newWolf.getStringContentFromFile(phrase2source) );
 
 	newWolf.insertWordIntoWisdom(nounSource, verbSource);
 

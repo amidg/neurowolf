@@ -5,6 +5,8 @@
 
 using namespace std;
 
+#define MAX_NUMBER_OF_STORED_IMAGES 1000
+
 //sources for images, text files etc
 string whereToFindSourceImages = "./ImgSource/";
 string phrase1source = "./Source/Phrase1.txt";
@@ -38,7 +40,7 @@ int main() {
 
 	strcpy(stringToBePassed, newWolf.getWisdom().c_str());
 
-	if (imageNum > 1000) { imageNum = 0; };
+	if (imageNum > MAX_NUMBER_OF_STORED_IMAGES) { imageNum = 0; };
 
 	generateCompleteWolfImage(stringToBePassed, imageNum);
 	

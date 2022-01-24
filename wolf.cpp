@@ -1,4 +1,4 @@
-#include "wolf.hpp"
+#include "wolf.h"
 #include <iostream>
 #include <string>
 #include <stdio.h>
@@ -104,4 +104,10 @@ void Wolf::insertWordIntoWisdom(string nounPath, string verbPath) {
 
 		wolfwisdom.insert(position, getStringContentFromFile(verbPath));
 	}
+}
+
+void Wolf::placeWisdomToFile(string wisdom) {
+	file_out.open(fileToPlaceWisdomTo, std::ios_base::app); //with append we will write to the end of the text file
+
+	file_out << wolfwisdom << endl;
 }

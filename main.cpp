@@ -38,6 +38,8 @@ int main() {
 
 	strcpy(stringToBePassed, newWolf.getWisdom().c_str());
 
+	if (imageNum > 1000) { imageNum = 0; };
+
 	generateCompleteWolfImage(stringToBePassed, imageNum);
 	
 	return 0;

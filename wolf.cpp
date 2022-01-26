@@ -25,6 +25,10 @@ void Wolf::setWisdom(string wisdom) {
 	wolfwisdom = wisdom;
 }
 
+string Wolf::getLogPath() {
+    return fileToPlaceWisdomTo;
+}
+
 //functions to get wisdom useful information
 string Wolf::getStringContentFromFile(string path) {
 	//this function takes random string from the txt file with predefined words
@@ -112,6 +116,25 @@ void Wolf::placeWisdomToFile(string wisdom) {
 	file_out << wolfwisdom << endl;
 }
 
-void Wolf::recordLatestMemeIndex(int index) {
-	
+int Wolf::recordLatestMemeIndex(string path) {
+	string phrase = "";
+	int numberOfLines = 0;
+	int i = 1;
+
+	fileHandler.open(path);
+
+	//check file open status
+	if (!fileHandler) {
+        cout << "Unable to open file";
+        exit(1); // terminate with error
+    } else if (fileHandler.is_open()) {
+        // Keep reading the file to calculate how many lines we have
+        while(getline(fileHandler, phrase))
+        {
+            numberOfLines++;
+        }
+		fileHandler.close();
+	}
+
+	return numberOfLines;
 }

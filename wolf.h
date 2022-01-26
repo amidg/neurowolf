@@ -19,6 +19,8 @@ public:
     string getWisdom();
     void setWisdom(string wisdom);
 
+    string getLogPath();
+
     //functions to get wisdom useful information
     string getStringContentFromFile(string path);
 
@@ -27,7 +29,7 @@ public:
     void insertWordIntoWisdom(string nounPath, string verbPath);
     void placeWisdomToFile(string wisdom);
 
-    void recordLatestMemeIndex(int index);
+    int recordLatestMemeIndex(string path);
 
     //useful variable
     ifstream fileHandler; //txt file handler for C++

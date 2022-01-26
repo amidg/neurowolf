@@ -5,8 +5,6 @@
 
 using namespace std;
 
-#define MAX_NUMBER_OF_STORED_IMAGES 100
-
 //sources for images, text files etc
 string whereToFindSourceImages = "./ImgSource/";
 string phrase1source = "./Source/Phrase1.txt";
@@ -18,8 +16,6 @@ string verbSource = "./Source/Verb.txt";
 Wolf newWolf = Wolf();
 
 int wolfwisdomlen = 0;
-
-int imageNum = 0;
 
 /*
 	CUDA CODE IS EXECUTED USING THE FOLLOWING -> check NVIDIA documentation for this
@@ -40,9 +36,7 @@ int main() {
 
 	strcpy(stringToBePassed, newWolf.getWisdom().c_str());
 
-	if (imageNum > MAX_NUMBER_OF_STORED_IMAGES) { imageNum = 0; };
-
-	generateCompleteWolfImage(stringToBePassed, imageNum);
+	generateCompleteWolfImage(stringToBePassed, newWolf.recordLatestMemeIndex(newWolf.getLogPath()));
 	
 	return 0;
 }

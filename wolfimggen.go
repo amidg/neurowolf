@@ -182,9 +182,9 @@ func generateCompleteWolfImage(wisdom *C.char, imageNum C.int) {
 
 	newWiseWolf := newWolf("Wolf", userWisdom)
 	fmt.Println("Welcome to Neural Wolf Generator Rev 1.0")
-	fmt.Println("We created the default wolf with user-specified wisdom")
-	fmt.Println("IF NO WISDOM PROVIDED WOLF SAYS DEFAULT WISDOM")
-	fmt.Println(newWiseWolf.name)
+	fmt.Println("Wolf has just said:")
+	// fmt.Println("IF NO WISDOM PROVIDED WOLF SAYS DEFAULT WISDOM")
+	// fmt.Println(newWiseWolf.name)
 	fmt.Println(newWiseWolf.wisdom)
 
 	//choose a template
@@ -199,7 +199,7 @@ func generateCompleteWolfImage(wisdom *C.char, imageNum C.int) {
 
 func main() {
 	/*
-		use go build -buildmode=c-shared wolfimggen.go to build library
+		use go build -buildmode=c-archive wolfimggen.go to build library
 		must indicate necessary functions with //export <function name>
 
 		g++ -pthread main.cpp wolfimggen.a -o wolfwisdomgenerator

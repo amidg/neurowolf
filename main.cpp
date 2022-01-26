@@ -5,7 +5,7 @@
 
 using namespace std;
 
-#define MAX_NUMBER_OF_STORED_IMAGES 1000
+#define MAX_NUMBER_OF_STORED_IMAGES 100
 
 //sources for images, text files etc
 string whereToFindSourceImages = "./ImgSource/";

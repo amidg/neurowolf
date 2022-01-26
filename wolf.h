@@ -27,6 +27,8 @@ public:
     void insertWordIntoWisdom(string nounPath, string verbPath);
     void placeWisdomToFile(string wisdom);
 
+    void recordLatestMemeIndex(int index);
+
     //useful variable
     ifstream fileHandler; //txt file handler for C++
     ofstream file_out;

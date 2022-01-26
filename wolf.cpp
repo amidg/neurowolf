@@ -111,3 +111,7 @@ void Wolf::placeWisdomToFile(string wisdom) {
 
 	file_out << wolfwisdom << endl;
 }
+
+void Wolf::recordLatestMemeIndex(int index) {
+	
+}

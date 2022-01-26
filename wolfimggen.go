@@ -18,6 +18,7 @@ import (
 	"github.com/fogleman/gg" //needed to draw text on image
 	"github.com/golang/freetype/truetype"
 	"golang.org/x/image/font/gofont/goregular"
+	"strconv"
 
 	"C"
 )
@@ -89,7 +90,7 @@ func readAndDecodeImage() (image.Image, int, int) { //returns regenerated jpegs 
 func generateWolfMeme(wolf *Wolf, imgWidth int, imgHeight int, loadedDecodedJPEG image.Image, imageNumber C.int) { //void function with OS output
 	//apply text
 	const fontSize = 36
-	imagePath := "./GeneratedImages/wolfMeme" + string(imageNumber) + ".jpeg"
+	imagePath := "./GeneratedImages/wolfMeme" + strconv.Itoa(int(imageNumber)) + ".jpeg"
 
 	//set font face
 	font, err := truetype.Parse(goregular.TTF)

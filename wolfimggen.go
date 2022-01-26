@@ -199,9 +199,12 @@ func generateCompleteWolfImage(wisdom *C.char, imageNum C.int) {
 
 func main() {
 	/*
-		use go build -buildmode=c-archive wolfimggen.go to build library
-		must indicate necessary functions with //export <function name>
+		1. Build Go-lang library for Wolf:
+			go build -buildmode=c-archive wolfimggen.go
 
-		g++ -pthread main.cpp wolfimggen.a -o wolfwisdomgenerator
+			NOTE: must indicate necessary functions with //export <function name>
+
+		2. Build C++ main wolf program using the following:
+			g++ -pthread main.cpp wolfimggen.a -o wolfwisdomgenerator
 	*/
 }

@@ -46,8 +46,11 @@ int main(int argc, char *argv[]) {
 
 	strcpy(stringToBePassed, newWolf.getWisdom().c_str());
 
-	generateCompleteWolfImage( stringToBePassed, int(argv[1]) ); // generate image index based on command line input
-	//generateCompleteWolfImage(stringToBePassed, newWolf.recordLatestMemeIndex(newWolf.getLogPath())); //use last number
+	if (argc > 1) {
+		generateCompleteWolfImage( stringToBePassed, atoi(argv[1]) ); // generate image index based on command line input
+	} else {
+		generateCompleteWolfImage(stringToBePassed, newWolf.recordLatestMemeIndex(newWolf.getLogPath())); //use last number
+	}
 	
 	return 0;
 }

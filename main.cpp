@@ -22,7 +22,7 @@ int wolfwisdomlen = 0;
 	function<<<grid,block>>>(param1,param2,...); 
 */
 
-int main() {
+int main(int argc, char *argv[]) {
 
 	newWolf.buildSimpleWisdomStructure(newWolf.getStringContentFromFile(phrase1source), 
 									   newWolf.getStringContentFromFile(phrase2source) );
@@ -36,7 +36,8 @@ int main() {
 
 	strcpy(stringToBePassed, newWolf.getWisdom().c_str());
 
-	generateCompleteWolfImage(stringToBePassed, newWolf.recordLatestMemeIndex(newWolf.getLogPath()));
+	generateCompleteWolfImage( stringToBePassed, int(argv[1]) ); // generate image index based on command line input
+	//generateCompleteWolfImage(stringToBePassed, newWolf.recordLatestMemeIndex(newWolf.getLogPath())); //use last number
 	
 	return 0;
 }

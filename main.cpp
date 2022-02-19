@@ -22,6 +22,16 @@ int wolfwisdomlen = 0;
 	function<<<grid,block>>>(param1,param2,...); 
 */
 
+/*
+		1. Build Go-lang library for Wolf:
+			go build -buildmode=c-archive wolfimggen.go
+
+			NOTE: must indicate necessary functions with //export <function name>
+
+		2. Build C++ main wolf program using the following:
+			g++ -pthread main.cpp wolfimggen.a -o wolfwisdomgenerator
+	*/
+
 int main(int argc, char *argv[]) {
 
 	newWolf.buildSimpleWisdomStructure(newWolf.getStringContentFromFile(phrase1source), 

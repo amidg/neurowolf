@@ -11,7 +11,7 @@ import (
 )
 
 //var TELEGRAM_BOT_TOKEN	= "";
-var TELEGRAM_BOT_TOKEN = "5154851264:AAFHRtrwyW0iuYsJ6tI8ag26VMp9HwW2Qgg"; // wolf token must be passed as variable for github security
+var TELEGRAM_BOT_TOKEN = ""; // wolf token must be passed as variable for github security
 var TELEGRAM_CHAT_ID = ""; // chat id
 var TRIGGER_GENERATION = false;
 var IMAGE_ID = "";
@@ -34,7 +34,8 @@ func execute_command(trigger bool, string imgID) {
 
 func main() {
 	argsWithoutProg := os.Args[1:]
-	TELEGRAM_CHAT_ID := os.Args[1]; // parse telegram chat token
+	TELEGRAM_BOT_TOKEN := os.Args[1]; // telegram bot token
+	TELEGRAM_CHAT_ID := os.Args[2]; // parse telegram chat token
 
 	bot, err := tgbotapi.NewBotAPI(os.Getenv(TELEGRAM_BOT_TOKEN))
 	if err != nil {
@@ -86,17 +87,22 @@ func main() {
 					bot.Send(msg)
 			}
 		}
+		
+		if TRIGGER_GENERATION {
+			execute_command(TRIGGER_GENERATION, IMAGE_ID); // trigger compiled c++ program to execute the image generator
 
-		// photoBytes, err := ioutil.ReadFile("./GeneratedImages/wolfMeme.png")
-		// if err != nil {
-		// 	panic(err)
-		// }
-		// photoFileBytes := tgbotapi.FileBytes{
-		// 	Name:  "picture",
-		// 	Bytes: photoBytes,
-		// }
-		// chatID := 12345678
-		// message, err := bot.Send(tgbotapi.NewPhotoUpload(int64(chatID), photoFileBytes))
+			photoBytes, err := ioutil.ReadFile("./GeneratedImages/wolfMeme" + IMAGE_ID + ".png")
+			if err != nil {
+				panic(err)
+			}
+
+			photoFileBytes := tgbotapi.FileBytes{
+				Name:  "picture",
+				Bytes: photoBytes,
+			}
+
+			msg, err := bot.Send(tgbotapi.NewPhotoUpload(int64(TELEGRAM_CHAT_ID), photoFileBytes))
+		}
 
 		if _, err := bot.Send(msg); err != nil {
 			log.Panic(err)

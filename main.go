@@ -37,7 +37,7 @@ func main() {
 	//TELEGRAM_BOT_TOKEN := os.Args[1]; // telegram bot token
 	//TELEGRAM_CHAT_ID := os.Args[2]; // parse telegram chat token
 
-	bot, err := tgbotapi.NewBotAPI(os.Getenv("TELEGRAM__WOLF_APITOKEN"))
+	bot, err := tgbotapi.NewBotAPI(os.Getenv("TELEGRAM_WOLF_APITOKEN"))
 	if err != nil {
 		log.Panic(err)
 	}

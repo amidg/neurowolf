@@ -16,6 +16,7 @@ string verbSource = "./Source/Verb.txt";
 Wolf newWolf = Wolf();
 
 int wolfwisdomlen = 0;
+string ImageIdFromLog = "";
 
 /*
 	CUDA CODE IS EXECUTED USING THE FOLLOWING -> check NVIDIA documentation for this
@@ -44,12 +45,16 @@ int main(int argc, char *argv[]) {
 	wolfwisdomlen = newWolf.getWisdom().length();
 	char stringToBePassed[wolfwisdomlen + 1];
 
+	ImageIdFromLog = to_string(newWolf.recordLatestMemeIndex(newWolf.getLogPath()));
+	char imageId[ImageIdFromLog.length() + 1];
+
 	strcpy(stringToBePassed, newWolf.getWisdom().c_str());
+	strcpy(imageId, ImageIdFromLog.c_str());
 
 	if (argc > 1) {
-		generateCompleteWolfImage( stringToBePassed, atoi(argv[1]) ); // generate image index based on command line input
+		generateCompleteWolfImage( stringToBePassed, argv[1] ); // generate image index based on command line input
 	} else {
-		generateCompleteWolfImage(stringToBePassed, newWolf.recordLatestMemeIndex(newWolf.getLogPath())); //use last number
+		generateCompleteWolfImage( stringToBePassed, imageId ); //use last number
 	}
 	
 	return 0;

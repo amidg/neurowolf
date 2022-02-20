@@ -18,7 +18,7 @@ import (
 	"github.com/fogleman/gg" //needed to draw text on image
 	"github.com/golang/freetype/truetype"
 	"golang.org/x/image/font/gofont/goregular"
-	"strconv"
+	//"strconv"
 
 	"C"
 )
@@ -87,10 +87,10 @@ func readAndDecodeImage() (image.Image, int, int) { //returns regenerated jpegs 
 	return loadedWolfImage, wolfImgWidth, wolfImgHeight
 }
 
-func generateWolfMeme(wolf *Wolf, imgWidth int, imgHeight int, loadedDecodedJPEG image.Image, imageNumber C.int) { //void function with OS output
+func generateWolfMeme(wolf *Wolf, imgWidth int, imgHeight int, loadedDecodedJPEG image.Image, imageID *C.char) { //void function with OS output
 	//apply text
 	const fontSize = 36
-	imagePath := "./GeneratedImages/wolfMeme" + strconv.Itoa(int(imageNumber)) + ".jpeg"
+	imagePath := "./GeneratedImages/wolfMeme" + C.GoString(imageID) + ".jpeg"
 
 	//set font face
 	font, err := truetype.Parse(goregular.TTF)
@@ -177,7 +177,7 @@ func getMachineGeneratedWisdom(wisdom string) string { //string output of the ma
 }
 
 //export generateCompleteWolfImage
-func generateCompleteWolfImage(wisdom *C.char, imageNum C.int) {
+func generateCompleteWolfImage(wisdom *C.char, imageID *C.char) {
 	//userWisdom := getManuallySpecifiedWisdom() //get wisdom from the keyboard
 	userWisdom = getMachineGeneratedWisdom(C.GoString(wisdom)) //neural network wisdom
 
@@ -195,7 +195,7 @@ func generateCompleteWolfImage(wisdom *C.char, imageNum C.int) {
 	loadedWolfImage, wolfImgWidth, wolfImgHeight := readAndDecodeImage() //takes global variable within the function
 
 	//generate meme
-	generateWolfMeme(newWiseWolf, wolfImgWidth, wolfImgHeight, loadedWolfImage, imageNum)
+	generateWolfMeme(newWiseWolf, wolfImgWidth, wolfImgHeight, loadedWolfImage, imageID)
 }
 
 func main() {

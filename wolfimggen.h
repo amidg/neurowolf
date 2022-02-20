@@ -68,8 +68,7 @@ typedef struct { void *data; GoInt len; GoInt cap; } GoSlice;
 extern "C" {
 #endif
 
-
-extern void generateCompleteWolfImage(char* p0, int p1);
+extern void generateCompleteWolfImage(char* wisdom, char* imageID);
 
 #ifdef __cplusplus
 }

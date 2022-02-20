@@ -34,10 +34,10 @@ func execute_command(trigger bool, imgID string) {
 }
 
 func main() {
-	TELEGRAM_BOT_TOKEN := os.Args[1]; // telegram bot token
+	//TELEGRAM_BOT_TOKEN := os.Args[1]; // telegram bot token
 	//TELEGRAM_CHAT_ID := os.Args[2]; // parse telegram chat token
 
-	bot, err := tgbotapi.NewBotAPI(os.Getenv(TELEGRAM_BOT_TOKEN))
+	bot, err := tgbotapi.NewBotAPI(os.Getenv("TELEGRAM__WOLF_APITOKEN"))
 	if err != nil {
 		log.Panic(err)
 	}
@@ -46,10 +46,10 @@ func main() {
 
 	log.Printf("Authorized on account %s", bot.Self.UserName)
 
-	u := tgbotapi.NewUpdate(0)
-	u.Timeout = 60
+	updateConfig := tgbotapi.NewUpdate(0)
+	updateConfig.Timeout = 10
 
-	updates, _ := bot.GetUpdatesChan(u)
+	updates, _ := bot.GetUpdatesChan(updateConfig)
 
 	for update := range updates {
 		// ================== infinite loop ============== //

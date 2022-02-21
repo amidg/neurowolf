@@ -1,10 +1,11 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
-	"fmt"
 	"os/exec"
+
 	//"io/ioutil"
 
 	//tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
@@ -12,10 +13,10 @@ import (
 )
 
 //var TELEGRAM_BOT_TOKEN	= "";
-var TELEGRAM_BOT_TOKEN = ""; // wolf token must be passed as variable for github security
-var TELEGRAM_CHAT_ID = ""; // chat id
-var TRIGGER_GENERATION = false;
-var IMAGE_ID = "";
+var TELEGRAM_BOT_TOKEN = "" // wolf token must be passed as variable for github security
+var TELEGRAM_CHAT_ID = ""   // chat id
+var TRIGGER_GENERATION = false
+var IMAGE_ID = ""
 
 func execute_command(trigger bool, imgID string) {
 	if trigger {
@@ -31,14 +32,14 @@ func execute_command(trigger bool, imgID string) {
 			return
 		}
 
-		cmd.Wait();
+		cmd.Wait()
 	}
 }
 
 var wolfKeyboard = tgbotapi.NewReplyKeyboard(
-    tgbotapi.NewKeyboardButtonRow( 
-        tgbotapi.NewKeyboardButton("мудрость"),
-        tgbotapi.NewKeyboardButton("/help"), 
+	tgbotapi.NewKeyboardButtonRow(
+		tgbotapi.NewKeyboardButton("/quote"),
+		tgbotapi.NewKeyboardButton("/help"),
 	),
 )
 
@@ -64,51 +65,48 @@ func main() {
 		// ================== loop to read chat updates ============== //
 
 		if update.Message == nil { // ignore any non-Message updates
-            continue
-        }
+			continue
+		}
 
-        if !update.Message.IsCommand() { // ignore any non-command Messages
-            continue
-        }
+		if !update.Message.IsCommand() { // ignore any non-command Messages
+			continue
+		}
 
 		// Create a new MessageConfig. We don't have text yet,
-        // so we leave it empty.
-        msg := tgbotapi.NewMessage(update.Message.Chat.ID, "")
+		// so we leave it empty.
+		msg := tgbotapi.NewMessage(update.Message.Chat.ID, "")
 
-		msg.ReplyMarkup = wolfKeyboard;
+		msg.ReplyMarkup = wolfKeyboard
 
 		// if we got message command
 		switch update.Message.Command() {
 		case "start":
 			msg.Text = "Welcome to Нейроволк! \n /wolf -> say wolf quote \n /help -> show available commands"
 		case "help":
-			msg.Text = "I understand /wolf or /say."
+			msg.Text = "I understand /wolf or /quote."
 			msg.ReplyToMessageID = update.Message.MessageID
 			bot.Send(msg)
 		case "wolf":
-			TRIGGER_GENERATION = true;
-			IMAGE_ID = string(update.Message.MessageID);
-		case "say":
-			TRIGGER_GENERATION = true;
-			IMAGE_ID = string(update.Message.MessageID);
-		case "мудрость":
-			TRIGGER_GENERATION = true;
-			IMAGE_ID = string(update.Message.MessageID);
+			TRIGGER_GENERATION = true
+			IMAGE_ID = string(update.Message.MessageID)
+		case "quote":
+			TRIGGER_GENERATION = true
+			IMAGE_ID = string(update.Message.MessageID)
 		default:
-			msg.Text = "I understand /wolf or /say"
+			msg.Text = "I understand /wolf or /quote"
 			msg.ReplyToMessageID = update.Message.MessageID
 			bot.Send(msg)
-	}
-		
+		}
+
 		if TRIGGER_GENERATION {
-			execute_command(TRIGGER_GENERATION, IMAGE_ID); // trigger compiled c++ program to execute the image generator
+			execute_command(TRIGGER_GENERATION, IMAGE_ID) // trigger compiled c++ program to execute the image generator
 
 			msg.Text = "Wolf has spoken!"
-			msg := tgbotapi.NewPhotoUpload(update.Message.Chat.ID, "./GeneratedImages/wolfMeme" + IMAGE_ID + ".jpeg");
+			msg := tgbotapi.NewPhotoUpload(update.Message.Chat.ID, "./GeneratedImages/wolfMeme"+IMAGE_ID+".jpeg")
 			//msg.Caption = message.CommandArguments()
 			msg.ReplyToMessageID = update.Message.MessageID
-			bot.Send(msg);
-			TRIGGER_GENERATION = false;
+			bot.Send(msg)
+			TRIGGER_GENERATION = false
 		}
 
 		if _, err := bot.Send(msg); err != nil {

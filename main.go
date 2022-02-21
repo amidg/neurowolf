@@ -35,6 +35,13 @@ func execute_command(trigger bool, imgID string) {
 	}
 }
 
+var wolfKeyboard = tgbotapi.NewReplyKeyboard(
+    tgbotapi.NewKeyboardButtonRow( 
+        tgbotapi.NewKeyboardButton("цитата"),
+        tgbotapi.NewKeyboardButton("help"), 
+	),
+)
+
 func main() {
 	//TELEGRAM_BOT_TOKEN := os.Args[1]; // telegram bot token
 	//TELEGRAM_CHAT_ID := os.Args[2]; // parse telegram chat token
@@ -67,6 +74,8 @@ func main() {
 		// Create a new MessageConfig. We don't have text yet,
         // so we leave it empty.
         msg := tgbotapi.NewMessage(update.Message.Chat.ID, "")
+
+		msg.ReplyMarkup = wolfKeyboard;
 
 		// if we got message command
 		switch update.Message.Command() {

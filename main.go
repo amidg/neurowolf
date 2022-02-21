@@ -35,11 +35,11 @@ func execute_command(trigger bool, imgID string) {
 	}
 }
 
-var wolfKeyboard = tgbotapi.NewInlineKeyboardMarkup(
-    tgbotapi.NewInlineKeyboardRow(
-        tgbotapi.NewInlineKeyboardButtonData("цитата", "/wolf"),
-        tgbotapi.NewInlineKeyboardButtonData("help", "/help"),
-    ),
+var wolfKeyboard = tgbotapi.NewReplyKeyboard(
+    tgbotapi.NewKeyboardButtonRow( 
+        tgbotapi.NewKeyboardButton("мудрость"),
+        tgbotapi.NewKeyboardButton("/help"), 
+	),
 )
 
 func main() {
@@ -89,6 +89,9 @@ func main() {
 			TRIGGER_GENERATION = true;
 			IMAGE_ID = string(update.Message.MessageID);
 		case "say":
+			TRIGGER_GENERATION = true;
+			IMAGE_ID = string(update.Message.MessageID);
+		case "мудрость":
 			TRIGGER_GENERATION = true;
 			IMAGE_ID = string(update.Message.MessageID);
 		default:

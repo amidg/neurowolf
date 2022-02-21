@@ -35,11 +35,11 @@ func execute_command(trigger bool, imgID string) {
 	}
 }
 
-var wolfKeyboard = tgbotapi.NewReplyKeyboard(
-    tgbotapi.NewKeyboardButtonRow( 
-        tgbotapi.NewKeyboardButton("цитата"),
-        tgbotapi.NewKeyboardButton("help"), 
-	),
+var wolfKeyboard = tgbotapi.NewInlineKeyboardMarkup(
+    tgbotapi.NewInlineKeyboardRow(
+        tgbotapi.NewInlineKeyboardButtonData("цитата", "/wolf"),
+        tgbotapi.NewInlineKeyboardButtonData("help", "/help"),
+    ),
 )
 
 func main() {

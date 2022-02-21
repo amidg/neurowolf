@@ -70,6 +70,8 @@ func main() {
 
 		// if we got message command
 		switch update.Message.Command() {
+		case "start":
+			msg.Text = "Welcome to Нейроволк! \n /wolf -> say wolf quote \n /help -> show available commands"
 		case "help":
 			msg.Text = "I understand /wolf or /say."
 			msg.ReplyToMessageID = update.Message.MessageID
@@ -81,7 +83,7 @@ func main() {
 			TRIGGER_GENERATION = true;
 			IMAGE_ID = string(update.Message.MessageID);
 		default:
-			msg.Text = "I don't know that command"
+			msg.Text = "I understand /wolf or /say"
 			msg.ReplyToMessageID = update.Message.MessageID
 			bot.Send(msg)
 	}

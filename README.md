@@ -7,6 +7,8 @@ Open-Source Project to generate Wolf's Wisdom Russian memes. Comes with its own 
 **Video generator:** Go + Bash using FFMPEG and CUDA \
 **Neural Network:** Python + ruGPT-3 by Sber-AI \
 
+You can try it here: @neurowolf_bot
+
 # Requirements:
 - Linux (latest GNU libs) -> ideal choice is Arch/Manjaro container
 - CUDA capable GPU with NVENC

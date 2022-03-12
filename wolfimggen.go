@@ -226,7 +226,7 @@ func generateCompleteWolfImage(wisdom *C.char, imageID *C.char) {
 	//userWisdom := getManuallySpecifiedWisdom() //get wisdom from the keyboard
 	userWisdom = getMachineGeneratedWisdom(C.GoString(wisdom)) //neural network wisdom
 
-	newWiseWolf := newWolf("Wolf", userWisdom)
+	newWiseWolf := newWolf("Wolf", userWisdom, "", "")
 	fmt.Println("Welcome to Neural Wolf Generator Rev 1.0")
 	fmt.Println("Wolf has just said:")
 	// fmt.Println("IF NO WISDOM PROVIDED WOLF SAYS DEFAULT WISDOM")
@@ -245,15 +245,10 @@ func generateCompleteWolfImage(wisdom *C.char, imageID *C.char) {
 
 //export generateCompleteWolfImageFromTwoPhrases
 func generateCompleteWolfImageFromTwoPhrases(phrase1 *C.char, phrase2 *C.char, imageID *C.char) {
-	//userWisdom := getManuallySpecifiedWisdom() //get wisdom from the keyboard
-	newWiseWolf.phrase1 = C.GoString(wisdom) //neural network wisdom
+	updatedphrase1 := C.GoString(phrase1) //neural network wisdom
+	updatedphrase2 := C.GoString(phrase2) //neural network wisdom
 
-	newWiseWolf := newWolf("Wolf", userWisdom)
-	fmt.Println("Welcome to Neural Wolf Generator Rev 1.0")
-	fmt.Println("Wolf has just said:")
-	// fmt.Println("IF NO WISDOM PROVIDED WOLF SAYS DEFAULT WISDOM")
-	// fmt.Println(newWiseWolf.name)
-	fmt.Println(newWiseWolf.wisdom)
+	newWiseWolf := newWolf("WolfTwoPhrases", "", updatedphrase1, updatedphrase2)
 
 	//choose a template
 	checkSourceWolfImages(pathToWolfImagesFolder)
@@ -262,7 +257,7 @@ func generateCompleteWolfImageFromTwoPhrases(phrase1 *C.char, phrase2 *C.char, i
 	loadedWolfImage, wolfImgWidth, wolfImgHeight := readAndDecodeImage() //takes global variable within the function
 
 	//generate meme
-	generateWolfMeme(newWiseWolf, wolfImgWidth, wolfImgHeight, loadedWolfImage, imageID)
+	generateWolfMemeFromTwoPhrases(newWiseWolf, wolfImgWidth, wolfImgHeight, loadedWolfImage, imageID)
 }
 
 func main() {

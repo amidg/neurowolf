@@ -18,6 +18,7 @@ import (
 	"github.com/fogleman/gg" //needed to draw text on image
 	"github.com/golang/freetype/truetype"
 	"golang.org/x/image/font/gofont/goregular"
+
 	//"strconv"
 
 	"C"
@@ -38,20 +39,23 @@ var (
 
 //WOLF STRUCT
 type Wolf struct {
-	name   string
-	wisdom string //replace with type wisdom.go later
+	name    string
+	wisdom  string
+	phrase1 string
+	phrase2 string
 }
 
-func newWolf(newWolfName string, newWolfWisdom string) *Wolf {
+func newWolf(newWolfName string, newWolfWisdom string, phrase1 string, phrase2 string) *Wolf {
 
-	if newWolfWisdom == "default" {
-		var defaultWisdom = "Wolf is stronger than lion but does not perform in circus"
-		newWolfWisdom = defaultWisdom
-	} else {
-		//do nothing
+	if phrase1 == "" {
+		phrase1 = "Wolf is stronger than lion"
+	} else if phrase2 == "" {
+		phrase2 = "but does not perform in circus"
+	} else if newWolfWisdom == "" || newWolfWisdom == "default" {
+		newWolfWisdom = "Wolf is stronger than lion but does not perform in circus"
 	}
 
-	w := Wolf{name: newWolfName, wisdom: newWolfWisdom}
+	w := Wolf{name: newWolfName, wisdom: newWolfWisdom, phrase1: phrase1, phrase2: phrase2}
 	return &w
 }
 
@@ -131,6 +135,48 @@ func generateWolfMeme(wolf *Wolf, imgWidth int, imgHeight int, loadedDecodedJPEG
 	fmt.Printf("Saved to %s\n", imagePath)
 }
 
+func generateWolfMemeFromTwoPhrases(wolf *Wolf, imgWidth int, imgHeight int, loadedDecodedJPEG image.Image, imageID *C.char) { //void function with OS output
+	//apply text
+	const fontSize = 36
+	imagePath := "./GeneratedImages/wolfMeme" + C.GoString(imageID) + ".jpeg"
+
+	//set font face
+	font, err := truetype.Parse(goregular.TTF)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	face := truetype.NewFace(font, &truetype.Options{Size: fontSize})
+
+	m := gg.NewContext(imgWidth, imgHeight)
+	m.DrawImage(loadedDecodedJPEG, 0, 0)
+	//m.LoadFontFace("/Library/Fonts/Impact.ttf", fontSize)
+	m.SetFontFace(face)
+
+	// Apply black stroke
+	m.SetHexColor("#000")
+	strokeSize := 6
+	for dy := -strokeSize; dy <= strokeSize; dy++ {
+		for dx := -strokeSize; dx <= strokeSize; dx++ {
+			// give it rounded corners
+			if dx*dx+dy*dy >= strokeSize*strokeSize {
+				continue
+			}
+			x := float64(imgWidth/2 + dx)
+			y := float64(imgHeight - fontSize + dy)
+			m.DrawStringAnchored(wolf.wisdom, x, y, 0.5, 0.5)
+		}
+	}
+
+	// Apply white fill
+	m.SetHexColor("#FFF")
+	m.DrawStringAnchored(wolf.wisdom, float64(imgWidth)/2, float64(imgHeight)-fontSize, 0.5, 0.5)
+
+	//save image
+	m.SavePNG(imagePath)
+	fmt.Printf("Saved to %s\n", imagePath)
+}
+
 func checkSourceWolfImages(pathToImages string) { //purely void function
 	files, err := ioutil.ReadDir(pathToWolfImagesFolder)
 
@@ -139,7 +185,6 @@ func checkSourceWolfImages(pathToImages string) { //purely void function
 	}
 
 	for iter, f := range files {
-		//fmt.Println(f.Name()) //debug only
 		wolfTemplateNames[iter] = f.Name()
 		numberOfAvailableImages = numberOfAvailableImages + 1
 		iter = iter + 1
@@ -180,6 +225,28 @@ func getMachineGeneratedWisdom(wisdom string) string { //string output of the ma
 func generateCompleteWolfImage(wisdom *C.char, imageID *C.char) {
 	//userWisdom := getManuallySpecifiedWisdom() //get wisdom from the keyboard
 	userWisdom = getMachineGeneratedWisdom(C.GoString(wisdom)) //neural network wisdom
+
+	newWiseWolf := newWolf("Wolf", userWisdom)
+	fmt.Println("Welcome to Neural Wolf Generator Rev 1.0")
+	fmt.Println("Wolf has just said:")
+	// fmt.Println("IF NO WISDOM PROVIDED WOLF SAYS DEFAULT WISDOM")
+	// fmt.Println(newWiseWolf.name)
+	fmt.Println(newWiseWolf.wisdom)
+
+	//choose a template
+	checkSourceWolfImages(pathToWolfImagesFolder)
+
+	//generate image compatible with Golang
+	loadedWolfImage, wolfImgWidth, wolfImgHeight := readAndDecodeImage() //takes global variable within the function
+
+	//generate meme
+	generateWolfMeme(newWiseWolf, wolfImgWidth, wolfImgHeight, loadedWolfImage, imageID)
+}
+
+//export generateCompleteWolfImageFromTwoPhrases
+func generateCompleteWolfImageFromTwoPhrases(phrase1 *C.char, phrase2 *C.char, imageID *C.char) {
+	//userWisdom := getManuallySpecifiedWisdom() //get wisdom from the keyboard
+	newWiseWolf.phrase1 = C.GoString(wisdom) //neural network wisdom
 
 	newWiseWolf := newWolf("Wolf", userWisdom)
 	fmt.Println("Welcome to Neural Wolf Generator Rev 1.0")

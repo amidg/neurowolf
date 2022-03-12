@@ -135,10 +135,10 @@ func generateWolfMeme(wolf *Wolf, imgWidth int, imgHeight int, loadedDecodedJPEG
 	fmt.Printf("Saved to %s\n", imagePath)
 }
 
-func generateWolfMemeFromTwoPhrases(wolf *Wolf, imgWidth int, imgHeight int, loadedDecodedJPEG image.Image, imageID *C.char) { //void function with OS output
+func generateWolfMemeFromTwoPhrases(wolf *Wolf, imgWidth int, imgHeight int, loadedDecodedJPEG image.Image, imageID string) { //void function with OS output
 	//apply text
 	const fontSize = 36
-	imagePath := "./GeneratedImages/wolfMeme" + C.GoString(imageID) + ".jpeg"
+	imagePath := "./GeneratedImages/wolfMeme" + imageID + ".jpeg"
 
 	//set font face
 	font, err := truetype.Parse(goregular.TTF)
@@ -245,10 +245,7 @@ func generateCompleteWolfImage(wisdom *C.char, imageID *C.char) {
 
 //export generateCompleteWolfImageFromTwoPhrases
 func generateCompleteWolfImageFromTwoPhrases(phrase1 *C.char, phrase2 *C.char, imageID *C.char) {
-	updatedphrase1 := C.GoString(phrase1) //neural network wisdom
-	updatedphrase2 := C.GoString(phrase2) //neural network wisdom
-
-	newWiseWolf := newWolf("WolfTwoPhrases", "", updatedphrase1, updatedphrase2)
+	newWiseWolf := newWolf("WolfTwoPhrases", "", C.GoString(phrase1), C.GoString(phrase2))
 
 	//choose a template
 	checkSourceWolfImages(pathToWolfImagesFolder)
@@ -257,7 +254,7 @@ func generateCompleteWolfImageFromTwoPhrases(phrase1 *C.char, phrase2 *C.char, i
 	loadedWolfImage, wolfImgWidth, wolfImgHeight := readAndDecodeImage() //takes global variable within the function
 
 	//generate meme
-	generateWolfMemeFromTwoPhrases(newWiseWolf, wolfImgWidth, wolfImgHeight, loadedWolfImage, imageID)
+	generateWolfMemeFromTwoPhrases(newWiseWolf, wolfImgWidth, wolfImgHeight, loadedWolfImage, C.GoString(imageID))
 }
 
 func main() {

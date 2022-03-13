@@ -28,6 +28,7 @@ import (
 //GLOBAL VARIABLES
 var (
 	pathToWolfImagesFolder  = "./ImgSource/"
+	pathToImageFonts        = "./Fonts/"
 	phrase1source           = "./Source/Phrase1.txt"
 	phrase2source           = "./Source/Phrase2.txt"
 	nounSource              = "./Source/Noun.txt"
@@ -104,13 +105,13 @@ func generateWolfMeme(wolf *Wolf, imgWidth int, imgHeight int, loadedDecodedJPEG
 
 	face := truetype.NewFace(font, &truetype.Options{Size: fontSize})
 
-	m := gg.NewContext(imgWidth, imgHeight)
-	m.DrawImage(loadedDecodedJPEG, 0, 0)
-	//m.LoadFontFace("/Library/Fonts/Impact.ttf", fontSize)
-	m.SetFontFace(face)
+	wolfmemeimg := gg.NewContext(imgWidth, imgHeight)
+	wolfmemeimg.DrawImage(loadedDecodedJPEG, 0, 0)
+	wolfmemeimg.LoadFontFace(pathToImageFonts+"Lobster.ttf", fontSize)
+	wolfmemeimg.SetFontFace(face)
 
 	// Apply black stroke
-	m.SetHexColor("#000")
+	wolfmemeimg.SetHexColor("#000")
 	strokeSize := 6
 	for dy := -strokeSize; dy <= strokeSize; dy++ {
 		for dx := -strokeSize; dx <= strokeSize; dx++ {
@@ -120,18 +121,17 @@ func generateWolfMeme(wolf *Wolf, imgWidth int, imgHeight int, loadedDecodedJPEG
 			}
 			x := float64(imgWidth/2 + dx)
 			y := float64(imgHeight - fontSize + dy)
-			m.DrawStringAnchored(wolf.wisdom, x, y, 0.5, 0.5)
+			wolfmemeimg.DrawStringAnchored(wolf.wisdom, x, y, 0.5, 0.5)
 		}
 	}
 
 	// Apply white fill
-	m.SetHexColor("#FFF")
-	m.DrawStringAnchored(wolf.wisdom, float64(imgWidth)/2, float64(imgHeight)-fontSize, 0.5, 0.5)
+	wolfmemeimg.SetHexColor("#FFF")
+	wolfmemeimg.DrawStringAnchored(wolf.wisdom, float64(imgWidth)/2, float64(imgHeight)-fontSize, 0.5, 0.5)
 	//func (dc *Context) DrawStringAnchored(s string, x, y, ax, ay float64)
 	//DrawStringAnchored draws the specified text at the specified anchor point. The anchor point is x - w * ax, y - h * ay, where w, h is the size of the text. Use ax=0.5, ay=0.5 to center the text at the specified point.
-
 	//save image
-	m.SavePNG(imagePath)
+	wolfmemeimg.SavePNG(imagePath)
 	fmt.Printf("Saved to %s\n", imagePath)
 }
 
@@ -148,13 +148,13 @@ func generateWolfMemeFromTwoPhrases(wolf *Wolf, imgWidth int, imgHeight int, loa
 
 	face := truetype.NewFace(font, &truetype.Options{Size: fontSize})
 
-	m := gg.NewContext(imgWidth, imgHeight)
-	m.DrawImage(loadedDecodedJPEG, 0, 0)
-	//m.LoadFontFace("/Library/Fonts/Impact.ttf", fontSize)
-	m.SetFontFace(face)
+	wolfmemeimg := gg.NewContext(imgWidth, imgHeight)
+	wolfmemeimg.DrawImage(loadedDecodedJPEG, 0, 0)
+	wolfmemeimg.LoadFontFace(pathToImageFonts+"Lobster.ttf", fontSize)
+	wolfmemeimg.SetFontFace(face)
 
 	// Apply black stroke
-	m.SetHexColor("#000")
+	wolfmemeimg.SetHexColor("#000")
 	strokeSize := 6
 	for dy := -strokeSize; dy <= strokeSize; dy++ {
 		for dx := -strokeSize; dx <= strokeSize; dx++ {
@@ -164,16 +164,16 @@ func generateWolfMemeFromTwoPhrases(wolf *Wolf, imgWidth int, imgHeight int, loa
 			}
 			x := float64(imgWidth/2 + dx)
 			y := float64(imgHeight - fontSize + dy)
-			m.DrawStringAnchored(wolf.wisdom, x, y, 0.5, 0.5)
+			wolfmemeimg.DrawStringAnchored(wolf.wisdom, x, y, 0.5, 0.5)
 		}
 	}
 
 	// Apply white fill
-	m.SetHexColor("#FFF")
-	m.DrawStringAnchored(wolf.wisdom, float64(imgWidth)/2, float64(imgHeight)-fontSize, 0.5, 0.5)
+	wolfmemeimg.SetHexColor("#FFF")
+	wolfmemeimg.DrawStringAnchored(wolf.wisdom, float64(imgWidth)/2, float64(imgHeight)-fontSize, 0.5, 0.5)
 
 	//save image
-	m.SavePNG(imagePath)
+	wolfmemeimg.SavePNG(imagePath)
 	fmt.Printf("Saved to %s\n", imagePath)
 }
 

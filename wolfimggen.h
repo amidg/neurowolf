@@ -69,6 +69,7 @@ extern "C" {
 #endif
 
 extern void generateCompleteWolfImage(char* wisdom, char* imageID);
+extern void generateCompleteWolfImageFromTwoPhrases(char* phrase1, char* phrase2, char* imageID);
 
 #ifdef __cplusplus
 }

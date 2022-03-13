@@ -21,8 +21,24 @@ string Wolf::getWisdom() {
     return wolfwisdom;
 }
 
+string Wolf::getPhrase1() {
+    return wisdomPhrase1;
+}
+
+string Wolf::getPhrase2() {
+    return wisdomPhrase2;
+}
+
 void Wolf::setWisdom(string wisdom) {
 	wolfwisdom = wisdom;
+}
+
+void Wolf::setPhrase1(string phrase1) {
+	wisdomPhrase1 = phrase1;
+}
+
+void Wolf::setPhrase2(string phrase2) {
+	wisdomPhrase2 = phrase2;
 }
 
 string Wolf::getLogPath() {
@@ -74,40 +90,45 @@ string Wolf::getStringContentFromFile(string path) {
 	return phrase;
 }
 
-void Wolf::buildSimpleWisdomStructure(string phrase1, string phrase2) {
-	string wisdomStructure = "";
-
-	wisdomStructure = phrase1 + " " + phrase2;
-	wolfwisdom = wisdomStructure;
+void Wolf::assignPhrasesToWisdomStructure(string phrase1, string phrase2) {
+	wisdomPhrase1 = phrase1;
+	wisdomPhrase2 = phrase2;
 }
 
-void Wolf::insertWordIntoWisdom(string nounPath, string verbPath) {
+void Wolf::buildSimpleWisdomStructure() {
+	wolfwisdom = wisdomPhrase1 + " " + wisdomPhrase2;
+}
+
+void Wolf::insertWordIntoString(string input, string lookfor, string nounPath, string verbPath) {
+	// this function replaces placeholders in the input string with actual words
+	std::size_t position = 0;
+
+	while ( input.find(lookfor) < 500 ) {
+		position = input.find(lookfor);
+		
+		input.erase(input.begin() + position);
+
+		input.insert(position, getStringContentFromFile(nounPath));
+	}
+}
+
+void Wolf::completeWisdomWithWords(string nounPath, string verbPath) {
 	/* insert word into the existing wisdom based on markers
 		n -> noun 
 		v -> verb
+		vpresent -> present tense verb
+		vpast -> past tense verb
 		a -> adjective
 		av -> adverb
 	*/
 
-	std::size_t position = 0;
-
 	//search for noun
-	while (wolfwisdom.find('n') < 500) {
-		position = wolfwisdom.find('n');
-		
-		wolfwisdom.erase(wolfwisdom.begin() + position);
+	insertWordIntoString(wisdomPhrase1, "n", nounPath, verbPath);
 
-		wolfwisdom.insert(position, getStringContentFromFile(nounPath));
-	}
+	// search for verb
+	insertWordIntoString(wisdomPhrase1, "v", nounPath, verbPath);
 
-	//search for verb
-	while (wolfwisdom.find('v') < 500) {
-		position = wolfwisdom.find('v');
-		
-		wolfwisdom.erase(wolfwisdom.begin() + position);
-
-		wolfwisdom.insert(position, getStringContentFromFile(verbPath));
-	}
+	buildSimpleWisdomStructure();
 }
 
 void Wolf::placeWisdomToFile(string wisdom) {

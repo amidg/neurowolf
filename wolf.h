@@ -17,7 +17,12 @@ public:
 
     //getter and setter for default wolf
     string getWisdom();
+    string getPhrase1();
+    string getPhrase2();
+
     void setWisdom(string wisdom);
+    void setPhrase1(string phrase1);
+    void setPhrase2(string phrase2);
 
     string getLogPath();
 
@@ -25,8 +30,10 @@ public:
     string getStringContentFromFile(string path);
 
     //functions to build wisdom
-    void buildSimpleWisdomStructure(string phrase1, string phrase2);
-    void insertWordIntoWisdom(string nounPath, string verbPath);
+    void assignPhrasesToWisdomStructure(string phrase1, string phrase2);
+    void buildSimpleWisdomStructure();
+    void insertWordIntoString(string input, string lookfor, string nounPath, string verbPath);
+    void completeWisdomWithWords(string nounPath, string verbPath);
     void placeWisdomToFile(string wisdom);
 
     int recordLatestMemeIndex(string path);
@@ -37,6 +44,8 @@ public:
 
 private:
 	string wolfwisdom;
+    string wisdomPhrase1;
+    string wisdomPhrase2;
     string fileToPlaceWisdomTo = "./wisdomLog.txt";
 };
 

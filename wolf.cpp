@@ -95,13 +95,14 @@ void Wolf::assignPhrasesToWisdomStructure(string phrase1, string phrase2) {
 	wisdomPhrase2 = phrase2;
 }
 
-void Wolf::buildSimpleWisdomStructure() {
-	wolfwisdom = wisdomPhrase1 + " " + wisdomPhrase2;
+void Wolf::buildSimpleWisdomStructure(string phrase1, string phrase2) {
+	wolfwisdom = phrase1 + " " + phrase2;
 }
 
-void Wolf::insertWordIntoString(string input, string lookfor, string nounPath, string verbPath) {
+string Wolf::insertWordIntoString(string input, char lookfor, string nounPath, string verbPath) {
 	// this function replaces placeholders in the input string with actual words
 	std::size_t position = 0;
+	string output;
 
 	while ( input.find(lookfor) < 500 ) {
 		position = input.find(lookfor);
@@ -110,6 +111,10 @@ void Wolf::insertWordIntoString(string input, string lookfor, string nounPath, s
 
 		input.insert(position, getStringContentFromFile(nounPath));
 	}
+
+	output = input;
+
+	return output;
 }
 
 void Wolf::completeWisdomWithWords(string nounPath, string verbPath) {
@@ -123,12 +128,12 @@ void Wolf::completeWisdomWithWords(string nounPath, string verbPath) {
 	*/
 
 	//search for noun
-	insertWordIntoString(wisdomPhrase1, "n", nounPath, verbPath);
+	wisdomPhrase1 = insertWordIntoString(wisdomPhrase1, 'n', nounPath, verbPath);
+	wisdomPhrase2 = insertWordIntoString(wisdomPhrase2, 'n', nounPath, verbPath);
 
 	// search for verb
-	insertWordIntoString(wisdomPhrase1, "v", nounPath, verbPath);
-
-	buildSimpleWisdomStructure();
+	wisdomPhrase1 = insertWordIntoString(wisdomPhrase1, 'v', nounPath, verbPath);
+	wisdomPhrase2 = insertWordIntoString(wisdomPhrase2, 'v', nounPath, verbPath);
 }
 
 void Wolf::placeWisdomToFile(string wisdom) {

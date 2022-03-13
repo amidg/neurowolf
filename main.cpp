@@ -59,6 +59,8 @@ int main(int argc, char *argv[]) {
 
 				newWolf.completeWisdomWithWords(nounSource, verbSource);
 
+				newWolf.buildSimpleWisdomStructure(newWolf.getPhrase1(), newWolf.getPhrase2());
+
 				newWolf.placeWisdomToFile(newWolf.getWisdom());
 
 				wolfwisdomlen = newWolf.getWisdom().length();
@@ -78,6 +80,8 @@ int main(int argc, char *argv[]) {
 									   					newWolf.getStringContentFromFile(phrase2source) );
 
 				newWolf.completeWisdomWithWords(nounSource, verbSource);
+
+				newWolf.buildSimpleWisdomStructure(newWolf.getPhrase1(), newWolf.getPhrase2());
 				
 				newWolf.placeWisdomToFile(newWolf.getWisdom());
 

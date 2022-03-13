@@ -31,8 +31,8 @@ public:
 
     //functions to build wisdom
     void assignPhrasesToWisdomStructure(string phrase1, string phrase2);
-    void buildSimpleWisdomStructure();
-    void insertWordIntoString(string input, string lookfor, string nounPath, string verbPath);
+    void buildSimpleWisdomStructure(string phrase1, string phrase2);
+    string insertWordIntoString(string input, char lookfor, string nounPath, string verbPath);
     void completeWisdomWithWords(string nounPath, string verbPath);
     void placeWisdomToFile(string wisdom);
 

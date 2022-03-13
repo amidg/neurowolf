@@ -162,15 +162,19 @@ func generateWolfMemeFromTwoPhrases(wolf *Wolf, imgWidth int, imgHeight int, loa
 			if dx*dx+dy*dy >= strokeSize*strokeSize {
 				continue
 			}
-			x := float64(imgWidth/2 + dx)
-			y := float64(imgHeight - fontSize + dy)
-			wolfmemeimg.DrawStringAnchored(wolf.wisdom, x, y, 0.5, 0.5)
+			x1 := float64(imgWidth/2 + dx)
+			x2 := float64(imgWidth/2 + dx)
+			y1 := float64(fontSize + dy)
+			y2 := float64(imgHeight - fontSize + dy)
+			wolfmemeimg.DrawStringAnchored(wolf.phrase1, x1, y1, 0.5, 0.5)
+			wolfmemeimg.DrawStringAnchored(wolf.phrase2, x2, y2, 0.5, 0.5)
 		}
 	}
 
 	// Apply white fill
 	wolfmemeimg.SetHexColor("#FFF")
-	wolfmemeimg.DrawStringAnchored(wolf.wisdom, float64(imgWidth)/2, float64(imgHeight)-fontSize, 0.5, 0.5)
+	wolfmemeimg.DrawStringAnchored(wolf.phrase1, float64(imgWidth)/2, fontSize, 0.5, 0.5)
+	wolfmemeimg.DrawStringAnchored(wolf.phrase2, float64(imgWidth)/2, float64(imgHeight)-fontSize, 0.5, 0.5)
 
 	//save image
 	wolfmemeimg.SavePNG(imagePath)

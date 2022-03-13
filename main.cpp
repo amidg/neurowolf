@@ -5,6 +5,8 @@
 
 using namespace std;
 
+#define DEBUG false
+
 //sources for images, text files etc
 string whereToFindSourceImages = "./ImgSource/";
 string phrase1source = "./Source/Phrase1.txt";
@@ -45,15 +47,46 @@ int main(int argc, char *argv[]) {
 		executable example would be:
 		./wolfwisdomgenerator imageID twophrases
 	*/
+	int numberOfValidArguments = argc - 1;
 
-	// cout << "arguments provided " + to_string(argc - 1) << endl; // debug only
+	if ( DEBUG ) {
+		cout << "valid arguments: " + to_string(numberOfValidArguments) << endl;
+		if (numberOfValidArguments == 2) {
+			cout << argv[1]; cout << ":"; cout << argv[2] << endl; // debug only
+		} else if (numberOfValidArguments > 3) {
+			cout << argv[1]; cout << ":"; cout << argv[2] << endl; // debug only
+			cout << argv[3]; cout << ":"; cout << argv[4] << endl; // debug only
+		}
+	}
 
-	switch (argc) {
+	switch (numberOfValidArguments) {
+		case 0: {
+			newWolf.assignPhrasesToWisdomStructure( newWolf.getStringContentFromFile(phrase1source), 
+									   				newWolf.getStringContentFromFile(phrase2source) );
+
+			newWolf.completeWisdomWithWords(nounSource, verbSource);
+
+			newWolf.buildSimpleWisdomStructure(newWolf.getPhrase1(), newWolf.getPhrase2());
+
+			newWolf.placeWisdomToFile(newWolf.getWisdom());
+
+			wolfwisdomlen = newWolf.getWisdom().length();
+			char stringToBePassed[wolfwisdomlen + 1];
+
+			ImageIdFromLog = to_string(newWolf.recordLatestMemeIndex(newWolf.getLogPath()));
+			char imageId[ImageIdFromLog.length() + 1];
+
+			strcpy(stringToBePassed, newWolf.getWisdom().c_str());
+			strcpy(imageId, ImageIdFromLog.c_str());
+			generateCompleteWolfImage( stringToBePassed, imageId );
+			break;
+		}
 		case 1:
 			cout << "please provide image ID" << endl;
 			break;
 		case 2: // imageId only provided
-			if ( argv[1] != "" && argv[1] != "\n") {
+			if (DEBUG) { cout << "imageId only provided" << endl; };
+			if ( (strcmp(argv[1], "--imageid") == 0) && ( argv[2] != "" && argv[2] != "\n") ) {
 				newWolf.assignPhrasesToWisdomStructure( newWolf.getStringContentFromFile(phrase1source), 
 									   					newWolf.getStringContentFromFile(phrase2source) );
 
@@ -71,11 +104,12 @@ int main(int argc, char *argv[]) {
 
 				strcpy(stringToBePassed, newWolf.getWisdom().c_str());
 				strcpy(imageId, ImageIdFromLog.c_str());
-				generateCompleteWolfImage( stringToBePassed, argv[1] );
+				generateCompleteWolfImage( stringToBePassed, argv[2] );
 			} 
 			break;
-		case 3: // command provided for number of phrases
-			if ( argv[2] == "twophrases" ) {
+		case 4: // command provided for number of phrases
+			if (DEBUG) { cout << "2 phrases required: " << endl; };
+			if ( (strcmp(argv[3], "--phrases") == 0) && ( strcmp(argv[4], "2") == 0 ) ) {
 				newWolf.assignPhrasesToWisdomStructure( newWolf.getStringContentFromFile(phrase1source), 
 									   					newWolf.getStringContentFromFile(phrase2source) );
 
@@ -97,9 +131,9 @@ int main(int argc, char *argv[]) {
 				strcpy(phrase2topass, newWolf.getPhrase2().c_str());
 				strcpy(imageId, ImageIdFromLog.c_str());
 
-				generateCompleteWolfImageFromTwoPhrases( phrase1topass, phrase2topass, argv[1]);
-			} else {
-				cout << "incorrect argument, use twophrases" << endl;
+				generateCompleteWolfImageFromTwoPhrases( phrase1topass, phrase2topass, argv[2]);
+			} else if ( (argv[3] == "--phrases") && ( argv[4] != "2" || argv[4] != "2\n" ) ) {
+				cout << "incorrect argument, use 1 or 2" << endl;
 			}
 			break;			
 	}

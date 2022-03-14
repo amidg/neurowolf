@@ -81,9 +81,32 @@ int main(int argc, char *argv[]) {
 			generateCompleteWolfImage( stringToBePassed, imageId );
 			break;
 		}
-		case 1:
-			cout << "please provide image ID" << endl;
+		case 1: {
+			cout << "default 2 phrase mode with imageid specified" << endl;
+			newWolf.assignPhrasesToWisdomStructure( newWolf.getStringContentFromFile(phrase1source), 
+													newWolf.getStringContentFromFile(phrase2source) );
+
+			newWolf.completeWisdomWithWords(nounSource, verbSource);
+
+			newWolf.buildSimpleWisdomStructure(newWolf.getPhrase1(), newWolf.getPhrase2());
+					
+			newWolf.placeWisdomToFile(newWolf.getWisdom());
+
+			phrase1len = newWolf.getPhrase1().length();
+			phrase2len = newWolf.getPhrase2().length();
+			char phrase1topass[phrase1len + 1];
+			char phrase2topass[phrase2len + 1];
+
+			ImageIdFromLog = to_string(newWolf.recordLatestMemeIndex(newWolf.getLogPath()));
+			char imageId[ImageIdFromLog.length() + 1];
+
+			strcpy(phrase1topass, newWolf.getPhrase1().c_str());
+			strcpy(phrase2topass, newWolf.getPhrase2().c_str());
+			strcpy(imageId, ImageIdFromLog.c_str());
+
+			generateCompleteWolfImageFromTwoPhrases( phrase1topass, phrase2topass, argv[1]);
 			break;
+		}
 		case 2: // imageId only provided
 			if (DEBUG) { cout << "imageId only provided" << endl; };
 			if ( (strcmp(argv[1], "--imageid") == 0) && ( argv[2] != "" && argv[2] != "\n") ) {

@@ -5,7 +5,7 @@
 
 using namespace std;
 
-#define DEBUG false
+#define DEBUG true
 
 //sources for images, text files etc
 string whereToFindSourceImages = "./ImgSource/";

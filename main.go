@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"strconv"
 
 	//"io/ioutil"
 
@@ -22,14 +23,15 @@ func execute_command(trigger bool, imgID string) {
 	if trigger {
 		app := "./wolfwisdomgenerator"
 
-		arg0 := imgID
-
-		cmd := exec.Command(app, arg0)
-		_, err := cmd.Output()
+		//cmd := exec.Command(app, "--imageid", imgID, "--phrases 2")
+		cmd := exec.Command(app, imgID)
+		out, err := cmd.Output()
 
 		if err != nil {
 			fmt.Println(err.Error())
 			return
+		} else {
+			fmt.Println(out)
 		}
 
 		cmd.Wait()
@@ -88,10 +90,10 @@ func main() {
 			bot.Send(msg)
 		case "wolf":
 			TRIGGER_GENERATION = true
-			IMAGE_ID = string(update.Message.MessageID)
+			IMAGE_ID = strconv.Itoa(update.Message.MessageID)
 		case "quote":
 			TRIGGER_GENERATION = true
-			IMAGE_ID = string(update.Message.MessageID)
+			IMAGE_ID = strconv.Itoa(update.Message.MessageID)
 		default:
 			msg.Text = "I understand /wolf or /quote"
 			msg.ReplyToMessageID = update.Message.MessageID
@@ -102,6 +104,7 @@ func main() {
 			execute_command(TRIGGER_GENERATION, IMAGE_ID) // trigger compiled c++ program to execute the image generator
 
 			msg.Text = "Wolf has spoken!"
+			println("waiting for: wolfMeme" + IMAGE_ID + ".jpeg")
 			msg := tgbotapi.NewPhotoUpload(update.Message.Chat.ID, "./GeneratedImages/wolfMeme"+IMAGE_ID+".jpeg")
 			//msg.Caption = message.CommandArguments()
 			msg.ReplyToMessageID = update.Message.MessageID

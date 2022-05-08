@@ -1,5 +1,21 @@
-# WolfWisdom
-Open-Source Project to generate Wolf's Wisdom Russian memes using C++ and CUDA. 
+# neurowolf
+Open-Source Project to generate Wolf's Wisdom Russian memes. Comes with its own graphic library to generate wolf memes. \
+\
+**Main**: C++ -> wraps all code together \
+**Graphics:** Go -> comes with its own custom library compiled as C-archive \
+**Telegram bot:** Go -> based on Telegram Golang API \
+**Video generator:** Go + Bash using FFMPEG and CUDA \
+**Neural Network:** Python + ruGPT-3 by Sber-AI \
 
-Project design: Use set of sample images and sample phrase structures to generate set of Wolf's "wisdom" sentences. This sentence is further used to generate a meme picture.
-Further implementation includes CUDA for neural network processing for online web-based application.  
+You can try it here (Telegram): @neurowolf_bot
+
+# Requirements:
+- Linux (latest GNU libs) -> ideal choice is Arch/Manjaro container
+- CUDA capable GPU with NVENC
+- 1GB RAM
+
+# Build from Source Code
+
+# Bugs
+
+

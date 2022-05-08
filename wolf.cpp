@@ -1,14 +1,18 @@
-#include<iostream>
 #include "wolf.h"
-#include <cstdlib>
+#include <iostream>
+#include <string>
+#include <stdio.h>
 #include <unistd.h>
-#include <locale> //needed to read russian language
+#include <locale>
 #include <fstream> //needed to read text from file
+#include <cstdlib>
 
 using namespace std;
 
 //constructors
 Wolf::Wolf() {
+	setlocale(LC_CTYPE,"Russian"); //russian language
+	srand(time(NULL)); //initialize random seed
 	wolfwisdom = "Волк слабее льва, но в цирке не выступает\n";
 }
 
@@ -17,8 +21,28 @@ string Wolf::getWisdom() {
     return wolfwisdom;
 }
 
+string Wolf::getPhrase1() {
+    return wisdomPhrase1;
+}
+
+string Wolf::getPhrase2() {
+    return wisdomPhrase2;
+}
+
 void Wolf::setWisdom(string wisdom) {
 	wolfwisdom = wisdom;
+}
+
+void Wolf::setPhrase1(string phrase1) {
+	wisdomPhrase1 = phrase1;
+}
+
+void Wolf::setPhrase2(string phrase2) {
+	wisdomPhrase2 = phrase2;
+}
+
+string Wolf::getLogPath() {
+    return fileToPlaceWisdomTo;
 }
 
 //functions to get wisdom useful information
@@ -66,38 +90,77 @@ string Wolf::getStringContentFromFile(string path) {
 	return phrase;
 }
 
-void Wolf::buildSimpleWisdomStructure(string phrase1, string phrase2) {
-	string wisdomStructure = "";
-
-	wisdomStructure = phrase1 + " " + phrase2;
-	wolfwisdom = wisdomStructure;
+void Wolf::assignPhrasesToWisdomStructure(string phrase1, string phrase2) {
+	wisdomPhrase1 = phrase1;
+	wisdomPhrase2 = phrase2;
 }
 
-void Wolf::insertWordIntoWisdom(string nounPath, string verbPath) {
+void Wolf::buildSimpleWisdomStructure(string phrase1, string phrase2) {
+	wolfwisdom = phrase1 + " " + phrase2;
+}
+
+string Wolf::insertWordIntoString(string input, char lookfor, string nounPath, string verbPath) {
+	// this function replaces placeholders in the input string with actual words
+	std::size_t position = 0;
+	string output;
+
+	while ( input.find(lookfor) < 500 ) {
+		position = input.find(lookfor);
+		
+		input.erase(input.begin() + position);
+
+		input.insert(position, getStringContentFromFile(nounPath));
+	}
+
+	output = input;
+
+	return output;
+}
+
+void Wolf::completeWisdomWithWords(string nounPath, string verbPath) {
 	/* insert word into the existing wisdom based on markers
 		n -> noun 
 		v -> verb
+		vpresent -> present tense verb
+		vpast -> past tense verb
 		a -> adjective
 		av -> adverb
 	*/
 
-	std::size_t position = 0;
-
 	//search for noun
-	while (wolfwisdom.find('n') < 500) {
-		position = wolfwisdom.find('n');
-		
-		wolfwisdom.erase(wolfwisdom.begin() + position);
+	wisdomPhrase1 = insertWordIntoString(wisdomPhrase1, 'n', nounPath, verbPath);
+	wisdomPhrase2 = insertWordIntoString(wisdomPhrase2, 'n', nounPath, verbPath);
 
-		wolfwisdom.insert(position, getStringContentFromFile(nounPath));
+	// search for verb
+	wisdomPhrase1 = insertWordIntoString(wisdomPhrase1, 'v', nounPath, verbPath);
+	wisdomPhrase2 = insertWordIntoString(wisdomPhrase2, 'v', nounPath, verbPath);
+}
+
+void Wolf::placeWisdomToFile(string wisdom) {
+	file_out.open(fileToPlaceWisdomTo, std::ios_base::app); //with append we will write to the end of the text file
+
+	file_out << wolfwisdom << endl;
+}
+
+int Wolf::recordLatestMemeIndex(string path) {
+	string phrase = "";
+	int numberOfLines = 0;
+	int i = 1;
+
+	fileHandler.open(path);
+
+	//check file open status
+	if (!fileHandler) {
+        cout << "Unable to open file";
+        exit(1); // terminate with error
+    } else if (fileHandler.is_open()) {
+        // Keep reading the file to calculate how many lines we have
+        while(getline(fileHandler, phrase))
+        {
+            numberOfLines++;
+        }
+		fileHandler.close();
 	}
 
-	//search for verb
-	while (wolfwisdom.find('v') < 500) {
-		position = wolfwisdom.find('v');
-		
-		wolfwisdom.erase(wolfwisdom.begin() + position);
-
-		wolfwisdom.insert(position, getStringContentFromFile(verbPath));
-	}
+	return numberOfLines;
 }

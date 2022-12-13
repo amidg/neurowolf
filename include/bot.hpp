@@ -17,28 +17,13 @@ class WolfBot {
 public:
 	WolfBot(const string& token); //default constructor
 
-    //getter and setter for default wolf
-    string getWisdom();
-    string getPhrase1();
-    string getPhrase2();
+    // telegram bot API
+    void run();
 
-    void setWisdom(string wisdom);
-    void setPhrase1(string phrase1);
-    void setPhrase2(string phrase2);
-
-    string getLogPath();
-
-    //functions to get wisdom useful information
-    string getStringContentFromFile(string path);
-
-    //functions to build wisdom
-    void assignPhrasesToWisdomStructure(string phrase1, string phrase2);
-    void buildSimpleWisdomStructure(string phrase1, string phrase2);
-    string insertWordIntoString(string input, char lookfor, string nounPath, string verbPath);
-    void completeWisdomWithWords(string nounPath, string verbPath);
-    void placeWisdomToFile(string wisdom);
-
-    int recordLatestMemeIndex(string path);
+    // get/set
+    string get_msg_id();
+    string get_wisdom();
+    string get_file_path();
 
     //useful variable
     ifstream fileHandler; //txt file handler for C++

@@ -31,10 +31,10 @@ public:
 
 private:
     Bot wolf_bot;
-    string bot_token;   // bot token, passed as env variable
-    string message_id; // message that triggered bot
-    string current_wisdom; // wolf quote
-    string path_to_image_file;
+    string bot_token;           // bot token, passed as env variable
+    string message_id;          // message that triggered bot
+    string current_wisdom;      // wolf quote
+    string path_to_image_file;  // path to image file in the form of ~/Pictures/wolfbot/message_id.png
 };
 
 #endif

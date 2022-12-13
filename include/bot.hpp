@@ -15,7 +15,7 @@ using namespace TgBot;
 
 class WolfBot {
 public:
-	WolfBot(const string& token); //default constructor
+	WolfBot(); //default constructor
 
     // telegram bot API
     void run();
@@ -31,6 +31,7 @@ public:
 
 private:
     Bot wolf_bot;
+    string bot_token;   // bot token, passed as env variable
     string message_id; // message that triggered bot
     string current_wisdom; // wolf quote
     string path_to_image_file;

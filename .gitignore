@@ -37,3 +37,6 @@
 
 #Mac specifics
 *.DS_Store
+
+# vscode stuff
+*.vscode

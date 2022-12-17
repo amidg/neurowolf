@@ -1,28 +1,64 @@
+# Neurowolf Dockerfile 
+# Designed to run neurowolf telegram
+
+# ubuntu:latest automatically selects architecture -> pulls 22.04
 FROM ubuntu:latest
-# run latest LTS ubuntu, aka 22.04 image
+LABEL maintainer="Dmitrii<github.com/amidg>"
 
-RUN apt-get -qq update && \
-    apt-get -qq install -y g++ make binutils cmake libssl-dev libboost-system-dev libcurl4-openssl-dev zlib1g-dev git 
+# CMD ["bash"]
 
-RUN git clone --recurse-submodules https://github.com/amidg/neurowolf.git -b gen2
+RUN apt-get update -y && apt-get install -y wget curl gpg-agent unzip sudo && \
+    wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add - && \
+    useradd --create-home --home-dir /home/neurowolf --shell /bin/bash --user-group --groups adm,sudo neurowolf && \
+    echo neurowolf:neurowolf | chpasswd && \
+    echo "neurowolf ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
-# setup telegram bot C++ libraries
-WORKDIR /usr/src/neurowolf
+# setup locale
+RUN apt update && sudo apt install locales && \
+    locale-gen en_US en_US.UTF-8 && \ 
+    update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 && \
+    export LANG=en_US.UTF-8
 
-WORKDIR /usr/src/tgbot-cpp
-COPY include include
-COPY src src
-COPY CMakeLists.txt ./
+# do overall update
+RUN apt-get update -y && apt-get upgrade -y && \
+    apt-get install -y software-properties-common 
 
-RUN cmake . && \
-    make -j$(nproc) && \
-    make install && \
-    rm -rf /usr/src/tgbot-cpp/*
+# setup repositories
+RUN apt-get update -y && \
+    add-apt-repository -y universe && \
+    add-apt-repository -y multiverse && \
+    apt-get update -y && \
+    apt-get upgrade -y
 
-# setup OpenCV libraries
+# install common linux tools
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y \
+    curl git gcc cmake make g++ gnupg2 lsb-release \
+    build-essential vim nano sudo bash-completion \
+    tzdata gosu terminator \
+    htop inxi neofetch gdb xterm \
+    libgtk2.0-dev pkg-config \
+    libpython3-dev python3-pip \
+    binutils libboost-system-dev libssl-dev zlib1g-dev libcurl4-openssl-dev
+
+# get latest release of OpenCV 4.6.0
+RUN mkdir /home/neurowolf/Libraries && \
+    wget https://github.com/opencv/opencv/archive/refs/tags/4.6.0.tar.gz -P /home/neurowolf/Libraries/ && \
+    tar -xvzf /home/neurowolf/Libraries/4.6.0.tar.gz -C /home/neurowolf/Libraries/
+
+RUN cd /home/neurowolf/Libraries/opencv-4.6.0 && \
+    mkdir -p build && cd build && \
+    cmake .. && \
+    make -j4 && \
+    sudo make install
+
+# install tgbot-cpp library
+RUN wget https://github.com/reo7sp/tgbot-cpp/archive/refs/tags/v1.5.tar.gz -P /home/neurowolf/Libraries/ && \
+    tar -xvzf /home/neurowolf/Libraries/v1.5.tar.gz -C /home/neurowolf/Libraries/ && \
+    cmake .. && \
+    make -j4 && \
+    sudo make install 
+
+# get neurowolf source code and build it
 
 
-# compile the neurowolf code 
-
-
-# run neurowolf bot
+ENV USER neurowolf

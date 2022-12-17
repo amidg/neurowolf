@@ -1,6 +1,9 @@
 # Neurowolf Dockerfile 
 # Designed to run neurowolf telegram
 
+# run with 
+# sudo docker run -it --mount src=/Users/dgusev/Projects/neurowolf/,target=/home/neurowolf/runtime/src,type=bind --name neurowolf_dev --hostname neurowolf_dev neurowolf-arm64
+
 # ubuntu:latest automatically selects architecture -> pulls 22.04
 FROM ubuntu:latest
 LABEL maintainer="Dmitrii<github.com/amidg>"

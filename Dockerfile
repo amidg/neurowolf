@@ -54,9 +54,14 @@ RUN cd /home/neurowolf/Libraries/opencv-4.6.0 && \
 # install tgbot-cpp library
 RUN wget https://github.com/reo7sp/tgbot-cpp/archive/refs/tags/v1.5.tar.gz -P /home/neurowolf/Libraries/ && \
     tar -xvzf /home/neurowolf/Libraries/v1.5.tar.gz -C /home/neurowolf/Libraries/ && \
+    cd /home/neurowolf/Libraries/tgbot-cpp-1.5 && \
+    mkdir -p build && cd build && \
     cmake .. && \
     make -j4 && \
     sudo make install 
+
+# clean up downloaded folders
+RUN rm -rf /home/neurowolf/Libraries
 
 # get neurowolf source code and build it
 

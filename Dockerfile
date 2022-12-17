@@ -44,18 +44,19 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y \
     binutils libboost-system-dev libssl-dev zlib1g-dev libcurl4-openssl-dev
 
 # get latest release of OpenCV 4.6.0
-RUN mkdir /home/neurowolf/Libraries && \
+RUN su neurowolf && \
+    mkdir /home/neurowolf/Libraries && \
     wget https://github.com/opencv/opencv/archive/refs/tags/4.6.0.tar.gz -P /home/neurowolf/Libraries/ && \
-    tar -xvzf /home/neurowolf/Libraries/4.6.0.tar.gz -C /home/neurowolf/Libraries/
-
-RUN cd /home/neurowolf/Libraries/opencv-4.6.0 && \
+    tar -xvzf /home/neurowolf/Libraries/4.6.0.tar.gz -C /home/neurowolf/Libraries/ && \
+    cd /home/neurowolf/Libraries/opencv-4.6.0 && \
     mkdir -p build && cd build && \
     cmake .. && \
     make -j4 && \
     sudo make install
 
 # install tgbot-cpp library
-RUN wget https://github.com/reo7sp/tgbot-cpp/archive/refs/tags/v1.5.tar.gz -P /home/neurowolf/Libraries/ && \
+RUN su neurowolf && \
+    wget https://github.com/reo7sp/tgbot-cpp/archive/refs/tags/v1.5.tar.gz -P /home/neurowolf/Libraries/ && \
     tar -xvzf /home/neurowolf/Libraries/v1.5.tar.gz -C /home/neurowolf/Libraries/ && \
     cd /home/neurowolf/Libraries/tgbot-cpp-1.5 && \
     mkdir -p build && cd build && \

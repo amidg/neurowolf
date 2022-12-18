@@ -35,6 +35,9 @@
 ./GeneratedImages/
 *.txt
 
+# vscode
+.vscode
+
 #Mac specifics
 *.DS_Store
 

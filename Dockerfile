@@ -8,8 +8,9 @@
 FROM ubuntu:latest
 LABEL maintainer="Dmitrii<github.com/amidg>"
 
-# CMD ["bash"]
+CMD ["bash"]
 
+# DEVELOPMENT ENVIRONMENT
 RUN apt-get update -y && apt-get install -y wget curl gpg-agent unzip sudo && \
     wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add - && \
     useradd --create-home --home-dir /home/neurowolf --shell /bin/bash --user-group --groups adm,sudo neurowolf && \
@@ -66,15 +67,12 @@ RUN su neurowolf && \
 
 # get the telegram bot python library
 RUN su neurowolf && \
-    wget https://github.com/python-telegram-bot/python-telegram-bot/releases/download/v13.15/python-telegram-bot-13.15.tar.gz -P /home/neurowolf/Libraries/ && \
-    tar -xvzf /home/neurowolf/Libraries/python-telegram-bot-13.15.tar.gz -C /home/neurowolf/Libraries/ && \
-    cd /home/neurowolf/Libraries/python-telegram-bot-13.15 && \
-    python3 setup.py install
+    pip install python-telegram-bot --upgrade
 
 # clean up downloaded folders
 RUN rm -rf /home/neurowolf/Libraries
 
-# get neurowolf source code and build it
+# RUNTIME ENVIRONMENT
 
 
 ENV USER neurowolf

@@ -2,7 +2,7 @@
 # Designed to run neurowolf telegram
 
 # run with 
-# sudo docker run -it --mount src=/Users/dgusev/Projects/neurowolf/,target=/home/neurowolf/runtime/src,type=bind --name neurowolf_dev --hostname neurowolf_dev neurowolf-arm64
+# sudo docker run -it --mount src=/Users/dgusev/Projects/neurowolf/,target=/home/neurowolf/dev,type=bind --name neurowolf_dev --hostname neurowolf_dev neurowolf-arm64
 
 # ubuntu:latest automatically selects architecture -> pulls 22.04
 FROM ubuntu:latest
@@ -73,6 +73,6 @@ RUN su neurowolf && \
 RUN rm -rf /home/neurowolf/Libraries
 
 # RUNTIME ENVIRONMENT
-
+# by default this project is expected to run in the native LXC container but docker runtime is possible as well! 
 
 ENV USER neurowolf

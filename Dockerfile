@@ -40,7 +40,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y \
     tzdata gosu terminator \
     htop inxi neofetch gdb xterm \
     libgtk2.0-dev pkg-config \
-    libpython3-dev python3-pip \
+    libpython3-dev python3-pip python-is-python3 \
     binutils libboost-system-dev libssl-dev zlib1g-dev libcurl4-openssl-dev
 
 # get latest release of OpenCV 4.6.0
@@ -63,6 +63,13 @@ RUN su neurowolf && \
     cmake .. && \
     make -j4 && \
     sudo make install 
+
+# get the telegram bot python library
+RUN su neurowolf && \
+    wget https://github.com/python-telegram-bot/python-telegram-bot/releases/download/v13.15/python-telegram-bot-13.15.tar.gz -P /home/neurowolf/Libraries/ && \
+    tar -xvzf /home/neurowolf/Libraries/python-telegram-bot-13.15.tar.gz -C /home/neurowolf/Libraries/ && \
+    cd /home/neurowolf/Libraries/python-telegram-bot-13.15 && \
+    python3 setup.py install
 
 # clean up downloaded folders
 RUN rm -rf /home/neurowolf/Libraries

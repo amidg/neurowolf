@@ -1,3 +1,6 @@
 [submodule "tgbot-cpp"]
 	path = tgbot-cpp
 	url = https://github.com/reo7sp/tgbot-cpp
+[submodule "python-telegram-bot"]
+	path = python-telegram-bot
+	url = git@github.com:python-telegram-bot/python-telegram-bot.git

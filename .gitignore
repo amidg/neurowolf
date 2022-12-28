@@ -32,14 +32,10 @@
 *.app
 
 #ignore all generated images
-./GeneratedImages/
-*.txt
+./result/
 
 # vscode
 .vscode
 
 #Mac specifics
 *.DS_Store
-
-# vscode stuff
-*.vscode

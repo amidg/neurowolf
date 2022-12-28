@@ -45,7 +45,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y \
     binutils libboost-system-dev libssl-dev zlib1g-dev libcurl4-openssl-dev
 
 # get latest release of OpenCV 4.6.0
-RUN su neurowolf && \
+RUN su neurowolf && \ 
     mkdir /home/neurowolf/Libraries && \
     wget https://github.com/opencv/opencv/archive/refs/tags/4.6.0.tar.gz -P /home/neurowolf/Libraries/ && \
     tar -xvzf /home/neurowolf/Libraries/4.6.0.tar.gz -C /home/neurowolf/Libraries/ && \
@@ -54,6 +54,10 @@ RUN su neurowolf && \
     cmake .. && \
     make -j4 && \
     sudo make install
+
+RUN apt-get update -y && \
+    apt-get upgrade -y && \
+    apt-get install libopencv-dev python3-opencv
 
 # install tgbot-cpp library
 RUN su neurowolf && \
@@ -68,6 +72,9 @@ RUN su neurowolf && \
 # get the telegram bot python library
 RUN su neurowolf && \
     pip install python-telegram-bot --upgrade
+
+# setup all the stuff needed for stable diffusion -> we work inside conda environment
+
 
 # clean up downloaded folders
 RUN rm -rf /home/neurowolf/Libraries

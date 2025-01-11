@@ -1,21 +1,11 @@
 # neurowolf
-Open-Source Project to generate Wolf's Wisdom Russian memes. Comes with its own graphic library to generate wolf memes. \
-\
-**Main**: C++ -> wraps all code together \
-**Graphics:** Go -> comes with its own custom library compiled as C-archive \
-**Telegram bot:** Go -> based on Telegram Golang API \
-**Video generator:** Go + Bash using FFMPEG and CUDA \
-**Neural Network:** Python + ruGPT-3 by Sber-AI \
+**January 2025 - Deprecated Project**
+This is supposed to be powered accelerated wolf wisdom russian meme generator. Available in Telegram as @neurowolf_bot
 
-You can try it here (Telegram): @neurowolf_bot
+Written in Go and C++. This project has never been finished, but maybe one day it will be just another ChatGPT wrapper.
 
-# Requirements:
-- Linux (latest GNU libs) -> ideal choice is Arch/Manjaro container
-- CUDA capable GPU with NVENC
-- 1GB RAM
-
-# Build from Source Code
-
-# Bugs
-
-
+Run this using the following:
+```
+podman build -t neurowolf .
+podman run -it --rm -e TELEGRAM_WOLF_APITOKEN= neurowolf:latest
+```

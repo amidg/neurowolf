@@ -8,7 +8,7 @@ version = "2.0.0"
 description = "Simple Telegram bot with Deepseek generating russian memes"
 authors = [{ name = "Dmitrii Gusev", email = "amidg4x4dima@gmail.com" }]
 dependencies = [
-    "ipex-llm[cpp]",
+    #"ipex-llm[cpp]", # already included in intel igpu Dockerfile
     "Pillow",
     "python-telegram-bot",
     "ollama"

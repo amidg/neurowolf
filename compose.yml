@@ -7,7 +7,17 @@ services:
       service: igpu_ollama
     container_name: neurowolf
     environment:
-      - LLM_MODEL=hf.co/KoLLchIK/DeepSeek-R1-Distill-Qwen-1.5B-Russian_dataset
-      - LLM_QUANT=Q8_0
+      # TOO stupid
+      #- LLM_MODEL=hf.co/bartowski/DeepSeek-R1-Distill-Qwen-7B-GGUF
+      #- LLM_QUANT=Q6_K_L
+      # TOO slow on intel iGPU
+      #- LLM_MODEL=hf.co/bartowski/DeepSeek-R1-Distill-Qwen-14B-GGUF
+      #- LLM_QUANT=Q6_K_L
+      # Understands too literally because no "thinking" involved
+      - LLM_MODEL=hf.co/attashe/gemma-2-9b-it-russian-function-calling-GGUF-Q8_0-GGUF
+      - LLM_QUANT=
+      # very simple, and not working as expected
+      #- LLM_MODEL=hf.co/KoLLchIK/DeepSeek-R1-Distill-Qwen-1.5B-Russian_dataset
+      #- LLM_QUANT=Q8_0
     volumes:
       - ./:/app:ro

@@ -1,4 +1,8 @@
 import os
+from os import listdir
+from os.path import isfile, join
+
+IMAGE_PATH = "./content/img/"
 
 def get_env_variable(str):
     variable = os.getenv(str)
@@ -16,3 +20,6 @@ def get_tg_token():
 
 def get_model_name():
     return get_env_variable("LLM_MODEL")
+
+def get_image_list():
+    return [(IMAGE_PATH + f) for f in listdir(IMAGE_PATH) if isfile(join(IMAGE_PATH, f))]

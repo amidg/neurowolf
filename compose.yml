@@ -1,14 +1,15 @@
-# TODO:
-# - Introduce .env file for configurations
 services:
   neurowolf:
-    extends:
-      file: ./dockerfiles/ai/base.yml
-      service: igpu_ollama
+    build:
+      context: .
+      dockerfile: Containerfile
     container_name: neurowolf
     environment:
-      - LLM_MODEL=hf.co/attashe/gemma-2-9b-it-russian-function-calling-GGUF-Q8_0-GGUF
-      - LLM_QUANT=
-      - TELEGRAM_BOT_TOKEN
+      - LLM_MODEL=gemma3:4b
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - OLLAMA_HOST=${OLLAMA_HOST}
+    tty: true
+    stdin_open: true
     volumes:
       - ./:/app:ro
+    restart: unless-stopped
